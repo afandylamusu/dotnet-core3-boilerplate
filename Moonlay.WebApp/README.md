@@ -2,5 +2,6 @@
 
 ## Features
 - Kafka Producers
+- Grpc Client
 - Monitoring the service AppMetrics (https://www.app-metrics.io/getting-started/)
 - Exceptions Report : Sentry OnPremise https://github.com/getsentry/onpremise

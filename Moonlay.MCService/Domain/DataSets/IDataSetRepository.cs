@@ -10,7 +10,7 @@ namespace Moonlay.MasterData.WebApi.Domain.DataSets
 
         Task<List<DataSetAttribute>> GetAttributesAsync(string datasetName, string domainName);
 
-        Task Create(DataSet model);
+        Task Create(DataSet model, IEnumerable<DataSetAttribute> dataSetAttributes);
 
         Task Delete(string name);
     }

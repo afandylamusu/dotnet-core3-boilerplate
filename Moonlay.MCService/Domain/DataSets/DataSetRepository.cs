@@ -32,7 +32,7 @@ namespace Moonlay.MasterData.WebApi.Domain.DataSets
 
         }
 
-        public Task Create(DataSet model)
+        public Task Create(DataSet model, IEnumerable<DataSetAttribute> dataSetAttributes)
         {
             throw new NotImplementedException();
         }

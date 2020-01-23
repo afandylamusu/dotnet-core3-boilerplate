@@ -1,0 +1,43 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+    name: {{ include "mdm-chart.fullname" . }}-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: {{ include "mdm-chart.fullname" . }}-mdm
+    template:
+        metadata:
+            labels:
+                app: {{ include "mdm-chart.fullname" . }}-mdm
+        spec:
+            containers:
+                - name: mdm-api
+                  image: mdm-api:1.0-beta1
+                  env:
+                    - name: ConnectionStrings__Connection
+                      value: Host={{ include "postgresql.fullname" . }};Database=my_db;Username=my_user;Password=my_pw
+                    - name: ConnectionStrings__ConnectionTrail
+                      value: Host={{ include "postgresql.fullname" . }};Database=my_db_trail;Username=my_user;Password=my_pw
+                    - name: Kafka__BootstrapServers
+                      value: {{ include "cp-kafka.fullname" . }}:9092
+                    - name: Kafka__SchemaRegistryUrl
+                      value: {{ include "cp-schema-registry.fullname" . }}:8081
+                
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+    name: {{ include "mdm-chart.fullname" . }}-service
+spec:
+    type: NodePort
+    selector:
+        app: {{ include "mdm-chart.fullname" . }}-mdm
+    ports:
+        - port: 8080
+          targetPort: 3003
+
+
+        

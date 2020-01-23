@@ -4,7 +4,9 @@ using Moonlay.Confluent.Kafka;
 using Moonlay.Core.Models;
 using Moonlay.WebApp.Clients;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Moonlay.WebApp
@@ -13,6 +15,11 @@ namespace Moonlay.WebApp
     {
         public class NewDataSetForm
         {
+            public class AttributeArg
+            {
+                public string Name { get; set; }
+            }
+
             [Required]
             [MaxLength(64)]
             [Display(Name="Domain")]
@@ -26,6 +33,8 @@ namespace Moonlay.WebApp
             [MaxLength(64)]
             [Display(Name = "Organization")]
             public string OrgName { get; set; }
+
+            public List<AttributeArg> Attributes { get; set; } = new List<AttributeArg>();
         }
 
         private readonly IKafkaProducer _producer;
@@ -53,7 +62,16 @@ namespace Moonlay.WebApp
                 return Page();
             }
 
-            var reply = await _dataSetClient.NewDatasetAsync(new MasterData.Protos.NewDatasetReq { Name = Form.Name, DomainName = Form.DomainName, OrganizationName = Form.OrgName });
+            var request = new MasterData.Protos.NewDatasetReq
+            {
+                Name = Form.Name,
+                DomainName = Form.DomainName,
+                OrganizationName = Form.OrgName
+            };
+
+            Form.Attributes.ForEach(o => request.Attributes.Add(new MasterData.Protos.AttributeArg { Name = o.Name }));
+
+            var reply = await _dataSetClient.NewDatasetAsync(request);
 
             return RedirectToPage("./Index");
         }

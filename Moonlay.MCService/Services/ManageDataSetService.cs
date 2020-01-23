@@ -2,6 +2,7 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Moonlay.MasterData.Protos;
 using Moonlay.MasterData.WebApi.Domain.DataSets;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Moonlay.MasterData.WebApi.Services
@@ -19,7 +20,13 @@ namespace Moonlay.MasterData.WebApi.Services
 
         public override async Task<Reply> NewDataset(NewDatasetReq request, ServerCallContext context)
         {
-            await _dataSetService.NewDataSet(request.Name, request.DomainName, request.OrganizationName, null);
+            await _dataSetService.NewDataSet(request.Name, request.DomainName, request.OrganizationName, request.Attributes.Select(o => new Models.DataSetAttribute
+            {
+                DataSetName = request.Name,
+                DomainName = request.DomainName,
+                Name = o.Name,
+                Type = o.Type
+            }));
 
             return new Reply
             {
