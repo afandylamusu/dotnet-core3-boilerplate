@@ -75,7 +75,7 @@ namespace Moonlay.MasterData.WebApi.UnitTests.Domain.DataSets
 
             // Act
             await dataSetRepository.Create(
-                new DataSet { Name = name, DomainName = domainName });
+                new DataSet { Name = name, DomainName = domainName }, dataSetAttributes);
 
             // Assert
             Assert.True(false);
