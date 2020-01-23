@@ -2,16 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Moonlay.MasterData.WebApi.Db;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Moonlay.MasterData.WebApi.Migrations
+namespace Moonlay.MasterData.WebApi.Migrations.MyDbTrail
 {
-    [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(MyDbTrailContext))]
+    [Migration("20200123010526_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,11 +21,12 @@ namespace Moonlay.MasterData.WebApi.Migrations
                 .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Moonlay.MasterData.WebApi.Models.Customer", b =>
+            modelBuilder.Entity("Moonlay.MasterData.WebApi.Models.CustomerTrail", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -31,6 +34,9 @@ namespace Moonlay.MasterData.WebApi.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("character varying(64)")
                         .HasMaxLength(64);
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean");
@@ -55,7 +61,7 @@ namespace Moonlay.MasterData.WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("CustomerTrails");
                 });
 #pragma warning restore 612, 618
         }

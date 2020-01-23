@@ -2,13 +2,13 @@ version: '3.4'
 
 services:
   moonlay.webapp:
-    image: ${DOCKER_REGISTRY-}mdm-app
+    image: ${DOCKER_REGISTRY-}mdm-app:1.0-beta12
     build:
       context: .
       dockerfile: Moonlay.WebApp/Dockerfile
 
   moonlay.masterdata.webapi:
-    image: ${DOCKER_REGISTRY-}mdm-api
+    image: ${DOCKER_REGISTRY-}mdm-api:1.0-beta12
     build:
       context: .
       dockerfile: Moonlay.MCService/Dockerfile

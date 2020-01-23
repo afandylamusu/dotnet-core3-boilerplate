@@ -33,8 +33,8 @@ namespace Moonlay.MasterData.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<MyDbContext>(options => options.UseSqlServer(Configuration.GetSection("ConnectionStrings:Connection").Value));
-            services.AddDbContext<MyDbTrailContext>(options => options.UseSqlServer(Configuration.GetSection("ConnectionStrings:ConnectionTrail").Value));
+            services.AddDbContext<MyDbContext>(options => options.UseNpgsql(Configuration.GetSection("ConnectionStrings:Connection").Value));
+            services.AddDbContext<MyDbTrailContext>(options => options.UseNpgsql(Configuration.GetSection("ConnectionStrings:ConnectionTrail").Value));
 
             services.AddScoped<IDbConnection>(c=> new MyConnection(new Microsoft.Data.SqlClient.SqlConnection(Configuration.GetSection("ConnectionStrings:Connection").Value)));
 
