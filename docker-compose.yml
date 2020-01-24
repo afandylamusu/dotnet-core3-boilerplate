@@ -194,17 +194,20 @@ services:
       dockerfile: Moonlay.MasterData.ApiGrpc/Dockerfile
     ports:
       - 8810:80
+      - 8443:443
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=8443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=112233
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ConnectionStrings__Connection=Host=postgres;Database=mdmdb;Username=moonlay;Password=mdm123
       - ConnectionStrings__ConnectionTrail=Host=postgres;Database=mdmdb_trail;Username=moonlay;Password=mdm123
       - Kafka__BootstrapServers=kafka1:9092
       - Kafka__SchemaRegistryUrl=kafka-schema-registry:8081
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-    links:
+      - ${USERPROFILE}/.aspnet/https:/https:ro
       - kafka1
       - kafka-schema-registry
       - postgres
@@ -220,15 +223,19 @@ services:
       dockerfile: Moonlay.MCService/Dockerfile
     ports:
       - 8811:80
+      - 8444:443
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - Grpc__ServerUrl=http://webapigrpc
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=8444
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=112233
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - Grpc__ServerUrl=https://webapigrpc
       - Kafka__BootstrapServers=kafka1:9092
       - Kafka__SchemaRegistryUrl=kafka-schema-registry:8081
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${USERPROFILE}/.aspnet/https:/https:ro
     links:
       - webapigrpc
     depends_on: 
@@ -241,15 +248,19 @@ services:
       dockerfile: Moonlay.WebApp/Dockerfile
     ports:
       - 8812:80
+      - 8445:443
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - Grpc__ServerUrl=http://webapigrpc
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=8445
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=112233
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - Grpc__ServerUrl=https://webapigrpc
       - Kafka__BootstrapServers=kafka1:9092
       - Kafka__SchemaRegistryUrl=kafka-schema-registry:8081
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${USERPROFILE}/.aspnet/https:/https:ro
     links:
       - webapigrpc
     depends_on: 
