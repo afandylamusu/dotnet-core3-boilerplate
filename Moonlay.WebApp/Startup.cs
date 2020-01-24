@@ -26,7 +26,21 @@ namespace Moonlay.WebApp
             services.AddHttpContextAccessor();
 
             services.AddScoped<ISignInService, SignInService>();
-            services.AddScoped<IManageDataSetClient>(c => new ManageDataSetClient(Grpc.Net.Client.GrpcChannel.ForAddress(Configuration.GetSection("Grpc:ServerUrl").Value)));
+
+            services.AddScoped<IManageDataSetClient>(c => {
+                if (Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "Development")
+                {
+                    var httpClientHandler = new System.Net.Http.HttpClientHandler();
+
+                    // Return `true` to allow certificates that are untrusted/invalid
+                    httpClientHandler.ServerCertificateCustomValidationCallback =
+                        System.Net.Http.HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
+                    return new ManageDataSetClient(Grpc.Net.Client.GrpcChannel.ForAddress(Configuration.GetSection("Grpc:ServerUrl").Value, new Grpc.Net.Client.GrpcChannelOptions { HttpClient = new System.Net.Http.HttpClient(httpClientHandler) }));
+                }
+                else
+                    return new ManageDataSetClient(Grpc.Net.Client.GrpcChannel.ForAddress(Configuration.GetSection("Grpc:ServerUrl").Value));
+            });
 
             services.AddRazorPages();
 

@@ -217,7 +217,7 @@ services:
       - postgres
 
   webapi:
-    image: ${DOCKER_REGISTRY-}mdm-api:1.0-beta20
+    image: ${DOCKER_REGISTRY-}mdm-api:1.0-beta22
     build:
       context: .
       dockerfile: Moonlay.MCService/Dockerfile
@@ -242,7 +242,7 @@ services:
       - webapigrpc
 
   webapp:
-    image: ${DOCKER_REGISTRY-}mdm-app:1.0-beta20
+    image: ${DOCKER_REGISTRY-}mdm-app:1.0-beta22
     build:
       context: .
       dockerfile: Moonlay.WebApp/Dockerfile
