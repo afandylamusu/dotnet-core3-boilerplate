@@ -16,15 +16,12 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\WeatherForecastController.cs" />
-    <Compile Remove="Models\WeatherForecast.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="App.Metrics" Version="4.0.0-*" />
     <PackageReference Include="App.Metrics.AspNetCore.Mvc" Version="4.0.0-*" />
     <PackageReference Include="App.Metrics.Reporting.Console" Version="4.0.0-*" />
-    <PackageReference Include="Dapper.StrongName" Version="2.0.30" />
-    <PackageReference Include="GraphQL" Version="2.4.0" />
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />
     <PackageReference Include="GraphQL.Server.Ui.Playground" Version="3.4.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
@@ -32,7 +29,6 @@
     <PackageReference Include="Npgsql" Version="4.1.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc5" />
-    <PackageReference Include="Grpc.AspNetCore" Version="2.26.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
@@ -43,13 +39,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Moonlay.Confluent.Kafka\Moonlay.Confluent.Kafka.csproj" />
-    <ProjectReference Include="..\Moonlay.Core.Models\Moonlay.Core.Models.csproj" />
-    <ProjectReference Include="..\Moonlay.Topics\Moonlay.Topics.csproj" />
+    <ProjectReference Include="..\Moonlay.MasterData.Domain.DataSets\Moonlay.MasterData.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Protobuf Include="..\Protos\mdm.proto" GrpcServices="Server" />
-  </ItemGroup>
 
 </Project>

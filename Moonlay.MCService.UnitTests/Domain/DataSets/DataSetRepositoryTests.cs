@@ -1,15 +1,14 @@
 using FluentAssertions;
-using Moonlay.MasterData.WebApi.Db;
-using Moonlay.MasterData.WebApi.Domain.DataSets;
-using Moonlay.MasterData.WebApi.Models;
+using Moonlay.MasterData.Domain.DataSets;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Moonlay.MasterData.WebApi.UnitTests.Domain.DataSets
+namespace Moonlay.MasterData.Domain.UnitTests.Domain.DataSets
 {
     public class DataSetRepositoryTests : IDisposable
     {
@@ -27,7 +26,7 @@ namespace Moonlay.MasterData.WebApi.UnitTests.Domain.DataSets
 
         private DataSetRepository CreateDataSetRepository()
         {
-            return new DataSetRepository(new MyConnection(new Microsoft.Data.SqlClient.SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=moonlaydev;Integrated Security=True")));
+            return new DataSetRepository(new MyConnection(new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=moonlaydev;Integrated Security=True")));
         }
 
         [Fact]

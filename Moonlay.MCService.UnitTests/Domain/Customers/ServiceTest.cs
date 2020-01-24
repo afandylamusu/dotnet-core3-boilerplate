@@ -1,11 +1,11 @@
 using FluentAssertions;
-using Moonlay.MasterData.WebApi.Customers;
+using Moonlay.MasterData.Domain.Customers;
 using Moq;
 using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Moonlay.MasterData.WebApi.UnitTests.Domain.Customers
+namespace Moonlay.MasterData.Domain.UnitTests.Domain.Customers
 {
     public class ServiceTest : IDisposable
     {
@@ -23,9 +23,9 @@ namespace Moonlay.MasterData.WebApi.UnitTests.Domain.Customers
             _MockRepo.VerifyAll();
         }
 
-        private Service CreateService(DbTestConnection db)
+        private CustomerService CreateService(DbTestConnection db)
         {
-            return new Service(_CustomerRepo.Object, db.Db);
+            return new CustomerService(_CustomerRepo.Object, db.Db);
         }
 
 
@@ -37,11 +37,11 @@ namespace Moonlay.MasterData.WebApi.UnitTests.Domain.Customers
         {
             using (var db = new DbTestConnection())
             {
-                _CustomerRepo.Setup(s => s.DbSet).Returns(db.Db.Set<Models.Customer>());
+                _CustomerRepo.Setup(s => s.DbSet).Returns(db.Db.Set<Customer>());
 
                 // Action
                 var service = CreateService(db);
-                Models.Customer customer = await service.NewCustomerAsync(firstName, lastName); ;
+                Customer customer = await service.NewCustomerAsync(firstName, lastName); ;
 
                 // Asserts
                 customer.Should().NotBeNull();
@@ -73,7 +73,7 @@ namespace Moonlay.MasterData.WebApi.UnitTests.Domain.Customers
         {
             using (var db = new DbTestConnection())
             {
-                _CustomerRepo.Setup(s => s.DbSet).Returns(db.Db.Set<Models.Customer>());
+                _CustomerRepo.Setup(s => s.DbSet).Returns(db.Db.Set<Customer>());
 
                 // prepare data
                 var service = CreateService(db);
@@ -91,8 +91,8 @@ namespace Moonlay.MasterData.WebApi.UnitTests.Domain.Customers
         {
             using (var db = new DbTestConnection())
             {
-                _CustomerRepo.Setup(s => s.DbSet).Returns(db.Db.Set<Models.Customer>());
-                _CustomerRepo.Setup(s => s.DbSetTrail).Returns(db.DbTrail.Set<Models.CustomerTrail>());
+                _CustomerRepo.Setup(s => s.DbSet).Returns(db.Db.Set<Customer>());
+                _CustomerRepo.Setup(s => s.DbSetTrail).Returns(db.DbTrail.Set<CustomerTrail>());
 
                 // prepare data
                 var service = CreateService(db);

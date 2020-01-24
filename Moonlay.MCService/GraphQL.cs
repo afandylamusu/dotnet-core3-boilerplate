@@ -1,6 +1,7 @@
 using GraphQL;
 using GraphQL.Types;
-using Moonlay.MasterData.WebApi.Customers.GraphQL;
+using Moonlay.MasterData.Domain.Customers;
+using Moonlay.MasterData.Domain.Customers.GraphQL;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -25,7 +26,7 @@ namespace Moonlay.MasterData.WebApi
                 ),
                 resolve: context =>
                 {
-                    return new List<Models.Customer>();
+                    return new List<Customer>();
                 }
 
             );
@@ -47,7 +48,7 @@ namespace Moonlay.MasterData.WebApi
                 resolve: context =>
                 {
                     var human = context.GetArgument<string>("name");
-                    return new Models.Customer(Guid.NewGuid());
+                    return new Customer(Guid.NewGuid());
                 });
         }
     }

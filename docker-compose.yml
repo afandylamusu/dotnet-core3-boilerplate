@@ -1,15 +1,21 @@
 version: '3.4'
 
 services:
-  moonlay.webapp:
-    image: ${DOCKER_REGISTRY-}mdm-app:1.0-beta12
+  webapp:
+    image: ${DOCKER_REGISTRY-}mdm-app:1.0-beta13
     build:
       context: .
       dockerfile: Moonlay.WebApp/Dockerfile
+    ports:
+      - 81:80
+      - 8444:443
 
-  moonlay.masterdata.webapi:
-    image: ${DOCKER_REGISTRY-}mdm-api:1.0-beta12
+  webapi:
+    image: ${DOCKER_REGISTRY-}mdm-api:1.0-beta17
     build:
       context: .
       dockerfile: Moonlay.MCService/Dockerfile
+    ports:
+      - 8080:80
+      - 8443:443
 

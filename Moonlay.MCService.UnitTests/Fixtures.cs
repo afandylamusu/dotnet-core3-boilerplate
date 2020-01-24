@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moonlay.Core.Models;
-using Moonlay.MasterData.WebApi.Db;
 using System;
 
-namespace Moonlay.MasterData.WebApi.UnitTests
+namespace Moonlay.MasterData.Domain.UnitTests
 {
     class SignInServiceMock : ISignInService
     {

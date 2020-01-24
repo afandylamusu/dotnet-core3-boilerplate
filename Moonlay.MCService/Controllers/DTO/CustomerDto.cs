@@ -1,4 +1,4 @@
-using Moonlay.MasterData.WebApi.Models;
+using Moonlay.MasterData.Domain.Customers;
 using Newtonsoft.Json;
 using System;
 using System.Runtime.Serialization;
