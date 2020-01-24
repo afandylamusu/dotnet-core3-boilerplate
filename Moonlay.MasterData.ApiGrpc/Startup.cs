@@ -48,7 +48,10 @@ namespace Moonlay.MasterData.ApiGrpc
             services.AddScoped<ICustomerService, CustomerService>();
 
             ConfigureKafka(services);
+
             services.AddGrpc();
+            services.AddMetrics();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,7 +67,7 @@ namespace Moonlay.MasterData.ApiGrpc
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<ManageDataSetRpc>();
-                endpoints.MapGrpcService<ManageDataSetRpc>();
+                endpoints.MapGrpcService<ManageOrganizationRpc>();
 
                 endpoints.MapGet("/", async context =>
                 {

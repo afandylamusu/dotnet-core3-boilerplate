@@ -1,9 +1,8 @@
-using Moonlay.MasterData.Domain.Customers;
 using Newtonsoft.Json;
 using System;
 using System.Runtime.Serialization;
 
-namespace Moonlay.MasterData.WebApi.Controllers.DTO
+namespace Moonlay.MasterData.OpenApi.Controllers.DTO
 {
     [DataContract]
     public class CustomerDto
@@ -46,5 +45,22 @@ namespace Moonlay.MasterData.WebApi.Controllers.DTO
 
         [JsonProperty("updated_by")]
         public string UpdatedBy { get; }
+    }
+
+    public class Customer
+    {
+
+        public Customer(Guid guid)
+        {
+            this.Id = guid;
+        }
+
+        public string LastName { get; internal set; }
+        public string FirstName { get; internal set; }
+        public DateTimeOffset CreatedAt { get; internal set; }
+        public Guid Id { get; internal set; }
+        public DateTimeOffset UpdatedAt { get; internal set; }
+        public string CreatedBy { get; internal set; }
+        public string UpdatedBy { get; internal set; }
     }
 }

@@ -45,5 +45,19 @@ namespace Moonlay.MasterData.ApiGrpc.Services
                 Message = "Successfully"
             };
         }
+
+        public override async Task<AllDataSetsReply> AllDataSets(AllDataSetsReq request, ServerCallContext context)
+        {
+            var reply = new AllDataSetsReply
+            {
+                Success = true,
+            };
+
+            (await _dataSetService.AllDataSets(request.DomainName)).ForEach(i => {
+                reply.Data.Add(new DataSetArg { Name = i.Name });
+            });
+
+            return reply;
+        }
     }
 }

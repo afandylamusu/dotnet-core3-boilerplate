@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.WebApi", "Moonlay.MCService\Moonlay.MasterData.WebApi.csproj", "{FBD5F60E-CA86-4127-87D1-4C1DF9B49547}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.OpenApi", "Moonlay.MCService\Moonlay.MasterData.OpenApi.csproj", "{FBD5F60E-CA86-4127-87D1-4C1DF9B49547}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.Domain.UnitTests", "Moonlay.MCService.UnitTests\Moonlay.MasterData.Domain.UnitTests.csproj", "{431336DC-54F1-44D0-9CCF-389E3CB9CDF8}"
 EndProject
@@ -34,9 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.Topics", "Moonlay.T
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DDCE94D3-7D05-4953-8AF6-DA5972A8A236}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonlay.MasterData.ApiGrpc", "Moonlay.MasterData.ApiGrpc\Moonlay.MasterData.ApiGrpc.csproj", "{D823C414-016B-481C-A5D8-54CF2A5F84BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.ApiGrpc", "Moonlay.MasterData.ApiGrpc\Moonlay.MasterData.ApiGrpc.csproj", "{D823C414-016B-481C-A5D8-54CF2A5F84BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonlay.MasterData.Domain", "Moonlay.MasterData.Domain.DataSets\Moonlay.MasterData.Domain.csproj", "{BECD7226-A628-47C8-9FCD-1967F319429B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.Domain", "Moonlay.MasterData.Domain.DataSets\Moonlay.MasterData.Domain.csproj", "{BECD7226-A628-47C8-9FCD-1967F319429B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

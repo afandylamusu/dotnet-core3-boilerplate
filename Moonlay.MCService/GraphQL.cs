@@ -1,12 +1,12 @@
 using GraphQL;
 using GraphQL.Types;
-using Moonlay.MasterData.Domain.Customers;
-using Moonlay.MasterData.Domain.Customers.GraphQL;
+using Moonlay.MasterData.OpenApi.Controllers.DTO;
+using Moonlay.MasterData.OpenApi.GraphQLTypes;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace Moonlay.MasterData.WebApi
+namespace Moonlay.MasterData.OpenApi
 {
     public class DQuery : ObjectGraphType<object>
     {

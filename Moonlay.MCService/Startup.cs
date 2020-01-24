@@ -1,3 +1,5 @@
+using Confluent.Kafka;
+using Confluent.SchemaRegistry;
 using GraphQL;
 using GraphQL.Server;
 using GraphQL.Types;
@@ -8,9 +10,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Moonlay.MasterData.Domain.Customers.GraphQL;
+using Moonlay.Confluent.Kafka;
+using Moonlay.Core.Models;
+using Moonlay.MasterData.OpenApi.Clients;
+using Moonlay.MasterData.OpenApi.GraphQLTypes;
 
-namespace Moonlay.MasterData.WebApi
+namespace Moonlay.MasterData.OpenApi
 {
     public class Startup
     {
@@ -26,11 +31,34 @@ namespace Moonlay.MasterData.WebApi
         {
             ConfigureRestFullServices(services);
 
-            //ConfigureGraphQL(services);
+            ConfigureKafka(services);
+
+            services.AddScoped<ISignInService, SignInService>();
+            services.AddScoped<IManageDataSetClient>(c => new ManageDataSetClient(Grpc.Net.Client.GrpcChannel.ForAddress(Configuration.GetSection("Grpc:ServerUrl").Value)));
 
             services.AddMetrics();
 
             services.AddHttpContextAccessor();
+        }
+
+        private void ConfigureKafka(IServiceCollection services)
+        {
+            services.AddSingleton(c => new SchemaRegistryConfig
+            {
+                Url = Configuration.GetSection("Kafka:SchemaRegistryUrl").Value,
+                // Note: you can specify more than one schema registry url using the
+                // schema.registry.url property for redundancy (comma separated list). 
+                // The property name is not plural to follow the convention set by
+                // the Java implementation.
+                // optional schema registry client properties:
+                RequestTimeoutMs = 5000,
+                MaxCachedSchemas = 10
+            });
+
+            services.AddSingleton<ISchemaRegistryClient>(c => new CachedSchemaRegistryClient(c.GetRequiredService<SchemaRegistryConfig>()));
+            services.AddSingleton(c => new ProducerConfig() { BootstrapServers = Configuration.GetSection("Kafka:BootstrapServers").Value });
+
+            services.AddScoped<IKafkaProducer, KafkaProducer>();
         }
 
         private void ConfigureRestFullServices(IServiceCollection services)

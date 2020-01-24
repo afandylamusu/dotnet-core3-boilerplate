@@ -14,12 +14,22 @@ service ManageDataSet {
   // New dataset
   rpc NewDataset (NewDatasetReq) returns (Reply);
   rpc RemoveDataSet (RemoveDataSetReq) returns (Reply);
+  rpc AllDataSets (AllDataSetsReq) returns (AllDataSetsReply);
 }
 
 // The response message containing the greetings.
 message Reply {
   bool success = 1;
   string message = 2;
+}
+
+message AllDataSetsReq {
+  string domainName = 2;
+}
+
+message AllDataSetsReply {
+  bool success = 1;
+  repeated DataSetArg Data = 2;
 }
 
 // The request message containing the user's name.
@@ -38,6 +48,10 @@ message NewDatasetReq {
 message AttributeArg {
     string name = 1;
     string type = 2;
+}
+
+message DataSetArg {
+    string name = 1;
 }
 
 message RemoveDataSetReq {

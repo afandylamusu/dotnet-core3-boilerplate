@@ -8,9 +8,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["Moonlay.MasterData.ApiGrpc/Moonlay.MasterData.ApiGrpc.csproj", "Moonlay.MasterData.ApiGrpc/"]
+COPY ["Moonlay.Topics/Moonlay.Topics.csproj", "Moonlay.Topics/"]
 COPY ["Moonlay.MasterData.Domain.DataSets/Moonlay.MasterData.Domain.csproj", "Moonlay.MasterData.Domain.DataSets/"]
 COPY ["Moonlay.Core.Models/Moonlay.Core.Models.csproj", "Moonlay.Core.Models/"]
-COPY ["Moonlay.Topics/Moonlay.Topics.csproj", "Moonlay.Topics/"]
 COPY ["Moonlay.Confluent.Kafka/Moonlay.Confluent.Kafka.csproj", "Moonlay.Confluent.Kafka/"]
 RUN dotnet restore "Moonlay.MasterData.ApiGrpc/Moonlay.MasterData.ApiGrpc.csproj"
 COPY . .

@@ -8,6 +8,7 @@ namespace Moonlay.MasterData.Domain.DataSets
     {
         Task NewDataSet(string name, string domainName, string orgName, IEnumerable<DataSetAttribute> attributes, Action<DataSet> beforeSave = null);
         Task Remove(string name);
+        Task<List<DataSet>> AllDataSets(string domainName);
     }
 
     public class DataSetService : IDataSetService
@@ -17,6 +18,11 @@ namespace Moonlay.MasterData.Domain.DataSets
         public DataSetService(IDataSetRepository dataSetRepository)
         {
             _dataSetRepository = dataSetRepository;
+        }
+
+        public async Task<List<DataSet>> AllDataSets(string domainName)
+        {
+            return await _dataSetRepository.AllAsync(domainName);
         }
 
         public async Task NewDataSet(string name, string domainName, string orgName, IEnumerable<DataSetAttribute> attributes, Action<DataSet> beforeSave = null)

@@ -1,6 +1,7 @@
 using GraphQL.Types;
+using Moonlay.MasterData.OpenApi.Controllers.DTO;
 
-namespace Moonlay.MasterData.Domain.Customers.GraphQL
+namespace Moonlay.MasterData.OpenApi.GraphQLTypes
 {
     public class CustomerType : ObjectGraphType<Customer>
     {
