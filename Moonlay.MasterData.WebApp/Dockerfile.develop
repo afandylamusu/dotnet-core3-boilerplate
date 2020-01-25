@@ -8,13 +8,13 @@ EXPOSE 80
 WORKDIR /src
 COPY ["Moonlay.Confluent.Kafka/Moonlay.Confluent.Kafka.csproj", "Moonlay.Confluent.Kafka/"]
 COPY ["Moonlay.Core.Models/Moonlay.Core.Models.csproj", "Moonlay.Core.Models/"]
-COPY ["Moonlay.Topics/Moonlay.Topics.csproj", "Moonlay.Topics/"]
-COPY ["Moonlay.WebApp/Moonlay.WebApp.csproj", "Moonlay.WebApp/"]
+COPY ["Moonlay.MasterData.Topics/Moonlay.MasterData.Topics.csproj", "Moonlay.MasterData.Topics/"]
+COPY ["Moonlay.MasterData.WebApp/Moonlay.MasterData.WebApp.csproj", "Moonlay.MasterData.WebApp/"]
 
-RUN dotnet restore "Moonlay.WebApp/Moonlay.WebApp.csproj"
+RUN dotnet restore "Moonlay.MasterData.WebApp/Moonlay.MasterData.WebApp.csproj"
 COPY . .
-WORKDIR "/src/Moonlay.WebApp"
-RUN dotnet build --no-restore "Moonlay.WebApp.csproj" -c $BUILD_CONFIGURATION
+WORKDIR "/src/Moonlay.MasterData.WebApp"
+RUN dotnet build --no-restore "Moonlay.MasterData.WebApp.csproj" -c $BUILD_CONFIGURATION
 
 RUN echo "exec dotnet run --no-build --no-launch-profile -c $BUILD_CONFIGURATION --" > /entrypoint.sh
 

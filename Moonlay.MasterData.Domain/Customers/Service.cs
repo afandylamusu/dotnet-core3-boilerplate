@@ -1,7 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using Moonlay.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Moonlay.MasterData.Domain.Customers
@@ -40,28 +42,24 @@ namespace Moonlay.MasterData.Domain.Customers
             return customer;
         }
 
-        public Task<List<Customer>> SearchAsync(Func<Customer, bool> criteria = null, int page = 0, int size = 25)
+        public async Task<PaginatedList<Customer>> SearchAsync(Expression<Func<Customer, bool>> criteria = null, int page = 0, int size = 25)
         {
             if (criteria == null)
                 criteria = x => true;
 
-            var result = _customerRepo.DbSet.Where(criteria).OrderBy(o => o.LastName).Skip(page * size).Take(size).ToList();
-
-            return Task.FromResult(result);
+            return await _customerRepo.DbSet.Where(criteria).GetRecordsAsync(page, size);
         }
 
-        public Task<List<CustomerTrail>> LogsAsync(Guid id)
+        public async Task<List<CustomerTrail>> LogsAsync(Guid id)
         {
-            var customer = _customerRepo.With(id);
+            var customer = await _customerRepo.With(id);
 
-            var logs = _customerRepo.DbSetTrail.Where(o => o.CustomerId == id).ToList();
-
-            return Task.FromResult(logs);
+            return await _customerRepo.DbSetTrail.Where(o => o.CustomerId == id).ToListAsync();
         }
 
         public async Task<Customer> UpdateProfileAsync(Guid id, string firstName, string lastName, Action<Customer> beforeSave = null)
         {
-            var customer = _customerRepo.With(id);
+            var customer = await _customerRepo.With(id);
             customer.FirstName = firstName;
             customer.LastName = lastName;
 

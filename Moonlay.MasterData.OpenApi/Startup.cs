@@ -5,7 +5,9 @@ using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +16,8 @@ using Moonlay.Confluent.Kafka;
 using Moonlay.Core.Models;
 using Moonlay.MasterData.OpenApi.Clients;
 using Moonlay.MasterData.OpenApi.GraphQLTypes;
+using System;
+using System.IO.Compression;
 
 namespace Moonlay.MasterData.OpenApi
 {
@@ -35,8 +39,6 @@ namespace Moonlay.MasterData.OpenApi
 
             services.AddScoped<ISignInService, SignInService>();
 
-            services.AddHttpClient();
-
             services.AddScoped<IManageDataSetClient>(c => {
                 if (Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "Development")
                 {
@@ -50,6 +52,15 @@ namespace Moonlay.MasterData.OpenApi
                 }
                 else
                     return new ManageDataSetClient(Grpc.Net.Client.GrpcChannel.ForAddress(Configuration.GetSection("Grpc:ServerUrl").Value));
+            });
+
+            services.AddResponseCompression(options=> {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+            });
+
+            services.Configure<GzipCompressionProviderOptions>(options => {
+                options.Level = CompressionLevel.Optimal;
             });
 
             services.AddMetrics();
@@ -80,6 +91,8 @@ namespace Moonlay.MasterData.OpenApi
         private void ConfigureRestFullServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddResponseCaching();
 
             services.AddSwaggerGen(c =>
             {
@@ -148,10 +161,27 @@ namespace Moonlay.MasterData.OpenApi
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             //app.UseCookiePolicy();
+            app.UseResponseCompression();
 
             app.UseRouting();
             // app.UseRequestLocalization();
             // app.UseCors();
+            app.UseResponseCaching();
+
+            // Caches cacheable responses for up to 10 seconds.
+            app.Use(async (context, next) =>
+            {
+                context.Response.GetTypedHeaders().CacheControl =
+                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromSeconds(10)
+                    };
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+                    new string[] { "Accept-Encoding" };
+
+                await next();
+            });
 
             app.UseAuthentication();
             // app.UseSession();

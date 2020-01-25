@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Moonlay.Core.Models
 {
@@ -26,20 +27,28 @@ namespace Moonlay.Core.Models
             _signIn = signIn;
         }
 
-        public TModel With(Guid id)
+        public async Task<TModel> With(Guid id)
         {
-            var r = DbSet.FirstOrDefault(x => x.Id == id);
+            var r = await DbSet.FirstOrDefaultAsync(x => x.Id == id);
             if (r == null) throw new RecordNotFoundException($"{nameof(TModel)} {id} not found");
 
             return r;
         }
 
-        public TModelTrail WithTrail(long id)
+        public async Task<TModelTrail> WithTrail(long id)
         {
-            var r = DbSetTrail.FirstOrDefault(o => o.Id == id);
+            var r = await DbSetTrail.FirstOrDefaultAsync(o => o.Id == id);
             if (r == null) throw new RecordNotFoundException($"{nameof(TModelTrail)} {id} not found");
 
             return r;
+        }
+    }
+
+    public static class RepoEntityHelpers
+    {
+        public static async Task<PaginatedList<T>> GetRecordsAsync<T>(this IQueryable<T> query, int pageIndex, int pageSize) where T : class
+        {
+            return await PaginatedList<T>.CreateAsync(query.AsNoTracking(), pageIndex, pageSize);
         }
     }
 }

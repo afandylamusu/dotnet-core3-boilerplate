@@ -52,13 +52,11 @@ namespace Moonlay.MasterData.Domain.Customers
             return Task.FromResult(record);
         }
 
-        public static Task RemoveAsync(this ICustomerRepository repo, Guid id)
+        public static async Task RemoveAsync(this ICustomerRepository repo, Guid id)
         {
-            var record = repo.With(id);
+            var record = await repo.With(id);
 
             repo.DbSet.Remove(record);
-
-            return Task.FromResult(record);
         }
     }
 }

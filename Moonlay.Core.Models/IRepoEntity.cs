@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Threading.Tasks;
 
 namespace Moonlay.Core.Models
 {
@@ -11,7 +12,7 @@ namespace Moonlay.Core.Models
 
         DbSet<TModelTrail> DbSetTrail { get; }
 
-        TModel With(Guid id);
+        Task<TModel> With(Guid id);
 
         string CurrentUser { get; }
 

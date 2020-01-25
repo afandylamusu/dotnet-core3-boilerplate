@@ -1,5 +1,7 @@
+using Moonlay.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Moonlay.MasterData.Domain.Customers
@@ -8,7 +10,7 @@ namespace Moonlay.MasterData.Domain.Customers
     {
         Task<Customer> NewCustomerAsync(string firstName, string lastName, Action<Customer> beforeSave = null);
 
-        Task<List<Customer>> SearchAsync(Func<Customer, bool> criteria = null, int page = 0, int size = 25);
+        Task<PaginatedList<Customer>> SearchAsync(Expression<Func<Customer, bool>> criteria = null, int page = 0, int size = 25);
 
         Task<List<CustomerTrail>> LogsAsync(Guid id);
 

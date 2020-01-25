@@ -100,7 +100,7 @@ namespace Moonlay.MasterData.Domain.UnitTests.Domain.Customers
                 var newCustomer = await service.NewCustomerAsync("Andy", "Kribo");
                 DateTimeOffset timeOfCreated = newCustomer.UpdatedAt;
 
-                _CustomerRepo.Setup(x => x.With(newCustomer.Id)).Returns(newCustomer);
+                _CustomerRepo.Setup(x => x.With(newCustomer.Id)).Returns(Task.FromResult(newCustomer));
 
                 // Action
                 var updatedCustomer = await service.UpdateProfileAsync(newCustomer.Id, "Andy", "Hasan");

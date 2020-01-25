@@ -188,7 +188,7 @@ services:
 
 
   webapigrpc:
-    image: ${DOCKER_REGISTRY-}mdm-grpc:1.0-beta24
+    image: ${DOCKER_REGISTRY-}mdm-grpc:1.0-beta27
     build:
       context: .
       dockerfile: Moonlay.MasterData.ApiGrpc/Dockerfile
@@ -208,6 +208,7 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${USERPROFILE}/.aspnet/https:/https:ro
+    links:
       - kafka1
       - kafka-schema-registry
       - postgres
@@ -217,7 +218,7 @@ services:
       - postgres
 
   webapi:
-    image: ${DOCKER_REGISTRY-}mdm-api:1.0-beta24
+    image: ${DOCKER_REGISTRY-}mdm-api:1.0-beta27
     build:
       context: .
       dockerfile: Moonlay.MasterData.OpenApi/Dockerfile
@@ -242,7 +243,7 @@ services:
       - webapigrpc
 
   webapp:
-    image: ${DOCKER_REGISTRY-}mdm-app:1.0-beta24
+    image: ${DOCKER_REGISTRY-}mdm-app:1.0-beta27
     build:
       context: .
       dockerfile: Moonlay.MasterData.WebApp/Dockerfile

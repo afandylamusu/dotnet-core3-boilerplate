@@ -3,6 +3,7 @@ using Confluent.SchemaRegistry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ using Moonlay.MasterData.Domain.Customers;
 using Moonlay.MasterData.Domain.Customers.Consumers;
 using Moonlay.MasterData.Domain.DataSets;
 using Moonlay.MasterData.Domain.DataSets.Consumers;
+using System.IO.Compression;
 
 namespace Moonlay.MasterData.ApiGrpc
 {
@@ -52,6 +54,15 @@ namespace Moonlay.MasterData.ApiGrpc
             services.AddGrpc();
             services.AddMetrics();
 
+            // Response Compression
+            services.AddResponseCompression(options => {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+            });
+
+            services.Configure<GzipCompressionProviderOptions>(options => {
+                options.Level = CompressionLevel.Fastest;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +74,7 @@ namespace Moonlay.MasterData.ApiGrpc
             }
 
             app.UseRouting();
+            app.UseResponseCompression();
 
             app.UseEndpoints(endpoints =>
             {

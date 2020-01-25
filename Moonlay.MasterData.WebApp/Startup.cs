@@ -2,12 +2,16 @@ using Confluent.Kafka;
 using Confluent.SchemaRegistry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Moonlay.Confluent.Kafka;
 using Moonlay.Core.Models;
 using Moonlay.WebApp.Clients;
+using System;
+using System.IO.Compression;
 
 namespace Moonlay.WebApp
 {
@@ -42,7 +46,18 @@ namespace Moonlay.WebApp
                     return new ManageDataSetClient(Grpc.Net.Client.GrpcChannel.ForAddress(Configuration.GetSection("Grpc:ServerUrl").Value));
             });
 
+            services.AddResponseCaching();
             services.AddRazorPages();
+
+            // Response Compression
+            services.AddResponseCompression(options => {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+            });
+            
+            services.Configure<GzipCompressionProviderOptions>(options => {
+                options.Level = CompressionLevel.Fastest;
+            });
 
             ConfigureKafka(services);
 
@@ -86,8 +101,25 @@ namespace Moonlay.WebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             //app.UseCookiePolicy();
+            app.UseResponseCompression();
 
             app.UseRouting();
+            app.UseResponseCaching();
+
+            // Caches cacheable responses for up to 10 seconds.
+            app.Use(async (context, next) =>
+            {
+                context.Response.GetTypedHeaders().CacheControl =
+                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromSeconds(10)
+                    };
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+                    new string[] { "Accept-Encoding" };
+
+                await next();
+            });
 
             app.UseAuthorization();
 
