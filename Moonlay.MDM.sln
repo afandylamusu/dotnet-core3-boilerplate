@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.OpenApi", "Moonlay.MCService\Moonlay.MasterData.OpenApi.csproj", "{FBD5F60E-CA86-4127-87D1-4C1DF9B49547}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.OpenApi", "Moonlay.MasterData.OpenApi\Moonlay.MasterData.OpenApi.csproj", "{FBD5F60E-CA86-4127-87D1-4C1DF9B49547}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.Domain.UnitTests", "Moonlay.MCService.UnitTests\Moonlay.MasterData.Domain.UnitTests.csproj", "{431336DC-54F1-44D0-9CCF-389E3CB9CDF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.Domain.UnitTests", "Moonlay.MasterData.Domain.UnitTests\Moonlay.MasterData.Domain.UnitTests.csproj", "{431336DC-54F1-44D0-9CCF-389E3CB9CDF8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.DemoKafkaClient", "Moonlay.DemoKafkaClient\Moonlay.DemoKafkaClient.csproj", "{2AF65B2D-400E-48E2-AC65-F6E710C70786}"
 EndProject
@@ -17,12 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.env = .env
 		docker-compose.yml = docker-compose.yml
-		Protos\mdm.proto = Protos\mdm.proto
+		Protos\messages.proto = Protos\messages.proto
+		Protos\services.proto = Protos\services.proto
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.Confluent.Kafka", "Moonlay.Confluent.Kafka\Moonlay.Confluent.Kafka.csproj", "{FCED9F44-3966-4E1A-AE45-408185C59C8B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.WebApp", "Moonlay.WebApp\Moonlay.WebApp.csproj", "{D16D9BCB-DAE5-4C82-A2A1-8D9BF94C8F86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.WebApp", "Moonlay.MasterData.WebApp\Moonlay.MasterData.WebApp.csproj", "{D16D9BCB-DAE5-4C82-A2A1-8D9BF94C8F86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{7DFBB7F8-FDCD-4EB6-8F20-971E806E861C}"
 EndProject
@@ -30,13 +31,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Topics", "Topics", "{88E0E8F3-C614-4CDD-B687-DFF56C50FADE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.Topics", "Moonlay.Topics\Moonlay.Topics.csproj", "{E8A57280-8D6A-462C-BB92-9A36F3F5102B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.Topics", "Moonlay.MasterData.Topics\Moonlay.MasterData.Topics.csproj", "{E8A57280-8D6A-462C-BB92-9A36F3F5102B}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DDCE94D3-7D05-4953-8AF6-DA5972A8A236}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.ApiGrpc", "Moonlay.MasterData.ApiGrpc\Moonlay.MasterData.ApiGrpc.csproj", "{D823C414-016B-481C-A5D8-54CF2A5F84BA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.Domain", "Moonlay.MasterData.Domain.DataSets\Moonlay.MasterData.Domain.csproj", "{BECD7226-A628-47C8-9FCD-1967F319429B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.MasterData.Domain", "Moonlay.MasterData.Domain\Moonlay.MasterData.Domain.csproj", "{BECD7226-A628-47C8-9FCD-1967F319429B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

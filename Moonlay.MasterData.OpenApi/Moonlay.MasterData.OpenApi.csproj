@@ -2,44 +2,48 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>37c23d6a-402d-47bd-8fbd-dc2614ce082b</UserSecretsId>
+    <UserSecretsId>f9d86bd9-873f-4a86-934f-54c69b0dfc16</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Producers\**" />
-    <Content Remove="Producers\**" />
-    <EmbeddedResource Remove="Producers\**" />
-    <None Remove="Producers\**" />
+    <Compile Remove="Protos\**" />
+    <Content Remove="Protos\**" />
+    <EmbeddedResource Remove="Protos\**" />
+    <None Remove="Protos\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Moonlay.Confluent.Kafka\Moonlay.Confluent.Kafka.csproj" />
-    <ProjectReference Include="..\Moonlay.Core.Models\Moonlay.Core.Models.csproj" />
-    <ProjectReference Include="..\Moonlay.Topics\Moonlay.Topics.csproj" />
+    <Compile Remove="Controllers\WeatherForecastController.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="App.Metrics" Version="4.0.0-*" />
     <PackageReference Include="App.Metrics.AspNetCore.Mvc" Version="4.0.0-*" />
     <PackageReference Include="App.Metrics.Reporting.Console" Version="4.0.0-*" />
+    <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="GraphQL.Server.Ui.Playground" Version="3.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc5" />
     <PackageReference Include="Google.Protobuf" Version="3.11.2" />
     <PackageReference Include="Grpc.Net.Client" Version="2.26.0" />
     <PackageReference Include="Grpc.Tools" Version="2.26.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="3.0.3" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Kubernetes.Tools.Targets" Version="1.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="Sentry.AspNetCore" Version="2.0.0-beta7" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\Protos\mdm.proto" GrpcServices="Client" />
+    <Protobuf Include="..\Protos\*.proto" GrpcServices="Client" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Moonlay.Confluent.Kafka\Moonlay.Confluent.Kafka.csproj" />
+    <ProjectReference Include="..\Moonlay.Core.Models\Moonlay.Core.Models.csproj" />
+    <ProjectReference Include="..\Moonlay.MasterData.Topics\Moonlay.MasterData.Topics.csproj" />
+  </ItemGroup>
+
 
 </Project>

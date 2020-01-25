@@ -188,7 +188,7 @@ services:
 
 
   webapigrpc:
-    image: ${DOCKER_REGISTRY-}mdm-grpc:1.0-beta20
+    image: ${DOCKER_REGISTRY-}mdm-grpc:1.0-beta24
     build:
       context: .
       dockerfile: Moonlay.MasterData.ApiGrpc/Dockerfile
@@ -217,10 +217,10 @@ services:
       - postgres
 
   webapi:
-    image: ${DOCKER_REGISTRY-}mdm-api:1.0-beta22
+    image: ${DOCKER_REGISTRY-}mdm-api:1.0-beta24
     build:
       context: .
-      dockerfile: Moonlay.MCService/Dockerfile
+      dockerfile: Moonlay.MasterData.OpenApi/Dockerfile
     ports:
       - 8811:80
       - 8444:443
@@ -242,10 +242,10 @@ services:
       - webapigrpc
 
   webapp:
-    image: ${DOCKER_REGISTRY-}mdm-app:1.0-beta22
+    image: ${DOCKER_REGISTRY-}mdm-app:1.0-beta24
     build:
       context: .
-      dockerfile: Moonlay.WebApp/Dockerfile
+      dockerfile: Moonlay.MasterData.WebApp/Dockerfile
     ports:
       - 8812:80
       - 8445:443

@@ -23,12 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Moonlay.MasterData.Domain.DataSets\Moonlay.MasterData.Domain.csproj" />
-    <ProjectReference Include="..\Moonlay.Topics\Moonlay.Topics.csproj" />
+    <ProjectReference Include="..\Moonlay.MasterData.Domain\Moonlay.MasterData.Domain.csproj" />
+    <ProjectReference Include="..\Moonlay.MasterData.Topics\Moonlay.MasterData.Topics.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\Protos\mdm.proto" GrpcServices="Server" />
+    <Protobuf Include="..\Protos\*.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>
