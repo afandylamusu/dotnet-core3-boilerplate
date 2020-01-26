@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: afandy/mdm-grpc:1.0-beta27
+  repository: afandy/mdm-grpc
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

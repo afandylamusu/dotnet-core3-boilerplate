@@ -29,7 +29,7 @@ spec:
         - name: mdm-api-chart
           securityContext:
             {}
-          image: "afandy/mdm-api:1.0-beta27:1.16.0"
+          image: "afandy/mdm-api:1.16.0"
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development

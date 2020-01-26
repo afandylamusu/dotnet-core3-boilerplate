@@ -8,7 +8,7 @@ metadata:
     helm.sh/chart: moonlay-ctp-chart-0.1.0
     app.kubernetes.io/name: moonlay-ctp-chart
     app.kubernetes.io/instance: RELEASE-NAME
-    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/version: "1.0-beta27"
     app.kubernetes.io/managed-by: Helm
   annotations:
     kubernetes.io/ingress.class: nginx

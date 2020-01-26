@@ -33,7 +33,7 @@ spec:
         - name: mdm-grpc-chart
           securityContext:
             {}
-          image: "afandy/mdm-grpc:1.0-beta27:1.16.0"
+          image: "afandy/mdm-grpc:1.16.0"
           imagePullPolicy: IfNotPresent
           env:
             - name: ASPNETCORE_ENVIRONMENT
@@ -43,7 +43,7 @@ spec:
             - name: ASPNETCORE_Kestrel__Certificates__Default__Path
               value: /https/tls.pfx
             - name: ASPNETCORE_Kestrel__Certificates__Default__Password
-              value: 112233
+              value: "112233"
             - name: ConnectionStrings__Connection
               value: Host=RELEASE-NAME-postgresql;Database=mdm;Username=moonlay-ctp-chart.postgresql.Values.postgresqlUsername;Password=moonlay-ctp-chart.postgresql.Values.postgresqlPassword
             - name: ConnectionStrings__ConnectionTrail

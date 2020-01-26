@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: afandy/mdm-api:1.0-beta27
+  repository: afandy/mdm-api
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
