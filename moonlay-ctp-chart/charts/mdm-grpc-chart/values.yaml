@@ -14,6 +14,8 @@ fullnameOverride: ""
 
 app:
   dbName: mdm
+  dbUser: ""
+  dbPassword: ""
   ssl:
     path: /https/tls.pfx
     password: "112233"

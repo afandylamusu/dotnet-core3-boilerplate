@@ -68,3 +68,8 @@ affinity: {}
 postgresql:
   postgresqlUsername: moonlay
   postgresqlPassword: P@ssW0rd
+
+mdm-grpc-chart:
+  app:
+    dbUser: moonlay
+    dbPassword: P@ssW0rd
