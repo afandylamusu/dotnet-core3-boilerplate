@@ -38,14 +38,15 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-staging
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   hosts:
-    - host: example.com
+    - host: demo-aks-ingress.eastus.cloudapp.azure.com
       paths: []
   tls:
-    - secretName: example-com-tls
+    - secretName: tls-secret
       hosts:
-        - example.com
+        - demo-aks-ingress.eastus.cloudapp.azure.com
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -73,3 +74,14 @@ mdm-grpc-chart:
   app:
     dbUser: moonlay
     dbPassword: P@ssW0rd
+
+nginx-ingress:
+  controller:
+    replicaCount: 2
+    nodeSelector:
+        beta\.kubernetes\.io/os: linux
+    defaultBackend:
+        beta\.kubernetes\.io/os: linux
+    service:
+        loadBalancerIP: 20.43.178.225
+    
