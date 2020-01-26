@@ -5,5 +5,8 @@ dependencies:
 - name: cp-helm-charts
   repository: https://confluentinc.github.io/cp-helm-charts/
   version: 0.4.0
-digest: sha256:cccdffe7aed066680ef657434f311bfe6bbe04ed2a235914e17c0e628660858f
-generated: "2020-01-26T15:55:19.4636807+07:00"
+- name: nginx-ingress
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 1.29.5
+digest: sha256:d40e25929be37db1e403ade96242ed49f73a6680e0aeb0a80178374c5ce6933c
+generated: "2020-01-26T19:45:14.3046185+07:00"
