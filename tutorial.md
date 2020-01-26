@@ -13,3 +13,9 @@ Local Registry:
 Share Local Registry with Minikube https://blog.hasura.io/sharing-a-local-registry-for-minikube-37c7240d0615/
 
 Expose https container with inggress: https://www.youtube.com/watch?v=7K0gAYmWWho
+
+Create an HTTPS ingress controller and use your own TLS certificates on Azure Kubernetes Service (AKS)
+https://docs.microsoft.com/en-us/azure/aks/ingress-own-tls
+
+Add SSL / TLS Certificate or .PEM file to Kubernetes’ Pod’s trusted root ca store
+https://medium.com/@paraspatidar/add-ssl-tls-certificate-or-pem-file-to-kubernetes-pod-s-trusted-root-ca-store-7bed5cd683d

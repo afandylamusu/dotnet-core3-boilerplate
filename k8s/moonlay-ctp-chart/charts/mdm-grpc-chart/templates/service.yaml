@@ -1,0 +1,26 @@
+---
+# Source: moonlay-ctp-chart/charts/mdm-grpc-chart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: RELEASE-NAME-mdm-grpc-chart
+  labels:
+    helm.sh/chart: mdm-grpc-chart-0.1.0
+    app.kubernetes.io/name: mdm-grpc-chart
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 443
+      targetPort: https
+      protocol: TCP
+      name: https
+  selector:
+    app.kubernetes.io/name: mdm-grpc-chart
+    app.kubernetes.io/instance: RELEASE-NAME

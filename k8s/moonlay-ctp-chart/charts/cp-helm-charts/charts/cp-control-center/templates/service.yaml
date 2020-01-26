@@ -1,0 +1,18 @@
+---
+# Source: moonlay-ctp-chart/charts/cp-helm-charts/charts/cp-control-center/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: RELEASE-NAME-cp-control-center
+  labels:
+    app: cp-control-center
+    chart: cp-control-center-0.1.0
+    release: RELEASE-NAME
+    heritage: Helm
+spec:
+  ports:
+    - name: cc-http
+      port: 9021
+  selector:
+    app: cp-control-center
+    release: RELEASE-NAME

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "moonlay-ctp-chart.fullname" . }}-test-connection"
+  labels:
+{{ include "moonlay-ctp-chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['{{ include "moonlay-ctp-chart.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

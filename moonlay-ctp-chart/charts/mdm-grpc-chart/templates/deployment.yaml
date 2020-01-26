@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mdm-grpc-chart.fullname" . }}
+  labels:
+    {{- include "mdm-grpc-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "mdm-grpc-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "mdm-grpc-chart.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "mdm-grpc-chart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: {{ .Release.Name }}-ssl-cfgmap
+          configMap:
+            name: {{ .Release.Name }}-ssl-cfgmap
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_URLS
+              value: https://+;http://+
+            - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+              value: {{ .Values.app.ssl.path }}
+            - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+              value: {{ .Values.app.ssl.password }}
+            - name: ConnectionStrings__Connection
+              value: {{ include "mdm-grpc-chart.defaultConnectionString" . }}
+            - name: ConnectionStrings__ConnectionTrail
+              value: {{ include "mdm-grpc-chart.trailConnectionString" . }}
+            - name: Kafka__BootstrapServers
+              value: {{ include "cp-kafka.fullname" . }}:9092
+            - name: Kafka__SchemaRegistryUrl
+              value: {{ include "cp-schema-registry.fullname" . }}:8081
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+          volumeMounts:
+            - name: {{ .Release.Name }}-ssl-cfgmap
+              mountPath: {{ .Values.app.ssl.path }}
+              subPath: {{ .Values.app.ssl.cert }}
+              readOnly: false
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

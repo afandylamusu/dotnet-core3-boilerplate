@@ -1,0 +1,19 @@
+---
+# Source: moonlay-ctp-chart/charts/cp-helm-charts/charts/cp-kafka/templates/headless-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: RELEASE-NAME-cp-kafka-headless
+  labels:
+    app: cp-kafka
+    chart: cp-kafka-0.1.0
+    release: RELEASE-NAME
+    heritage: Helm
+spec:
+  ports:
+    - port: 9092
+      name: broker
+  clusterIP: None
+  selector:
+    app: cp-kafka
+    release: RELEASE-NAME

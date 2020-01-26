@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mdm-chart.fullname" . }}
+  name: {{ include "moonlay-ctp-chart.fullname" . }}
   labels:
-    {{- include "mdm-chart.labels" . | nindent 4 }}
+    {{- include "moonlay-ctp-chart.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "mdm-chart.selectorLabels" . | nindent 6 }}
+      {{- include "moonlay-ctp-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "mdm-chart.selectorLabels" . | nindent 8 }}
+        {{- include "moonlay-ctp-chart.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "mdm-chart.serviceAccountName" . }}
+      serviceAccountName: {{ include "moonlay-ctp-chart.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

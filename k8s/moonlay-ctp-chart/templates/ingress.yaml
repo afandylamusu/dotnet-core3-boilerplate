@@ -1,0 +1,28 @@
+---
+# Source: moonlay-ctp-chart/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: RELEASE-NAME-moonlay-ctp-chart
+  labels:
+    helm.sh/chart: moonlay-ctp-chart-0.1.0
+    app.kubernetes.io/name: moonlay-ctp-chart
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+    - hosts:
+        - "chart-example.local"
+      secretName: chart-example-tls
+  rules:
+    - host: "chart-example.local"
+      http:
+        paths:
+          - path: /(.*)
+            backend:
+              serviceName: RELEASE-NAME-mdm-api-chart
+              servicePort: 80

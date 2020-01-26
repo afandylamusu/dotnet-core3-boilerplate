@@ -1,0 +1,56 @@
+---
+# Source: moonlay-ctp-chart/charts/mdm-api-chart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: RELEASE-NAME-mdm-api-chart
+  labels:
+    helm.sh/chart: mdm-api-chart-0.1.0
+    app.kubernetes.io/name: mdm-api-chart
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mdm-api-chart
+      app.kubernetes.io/instance: RELEASE-NAME
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mdm-api-chart
+        app.kubernetes.io/instance: RELEASE-NAME
+    spec:
+      serviceAccountName: mdm-api
+      securityContext:
+        {}
+      containers:
+        - name: mdm-api-chart
+          securityContext:
+            {}
+          image: "afandy/mdm-api:1.0-beta27:1.16.0"
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: Grpc__ServerUrl
+              value: https://RELEASE-NAME-mdm-grpc-chart
+            - name: Kafka__BootstrapServers
+              value: RELEASE-NAME-cp-kafka:9092
+            - name: Kafka__SchemaRegistryUrl
+              value: RELEASE-NAME-cp-schema-registry:8081
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {}
