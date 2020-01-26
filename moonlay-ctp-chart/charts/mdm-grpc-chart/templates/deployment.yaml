@@ -48,26 +48,11 @@ spec:
               value: {{ include "cp-kafka.fullname" . }}:9092
             - name: Kafka__SchemaRegistryUrl
               value: {{ include "cp-schema-registry.fullname" . }}:8081
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-            - name: https
-              containerPort: 443
-              protocol: TCP
           volumeMounts:
             - name: {{ .Release.Name }}-ssl-cfgmap
               mountPath: {{ .Values.app.ssl.path }}
               subPath: {{ .Values.app.ssl.cert }}
               readOnly: false
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

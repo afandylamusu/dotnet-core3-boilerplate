@@ -188,7 +188,7 @@ services:
 
 
   webapigrpc:
-    image: ${DOCKER_REGISTRY-}mdm-grpc:1.0-beta27
+    image: ${DOCKER_REGISTRY-}mdm-grpc:${MASTERDATA_IMAGETAG}
     build:
       context: .
       dockerfile: Moonlay.MasterData.ApiGrpc/Dockerfile
@@ -218,7 +218,7 @@ services:
       - postgres
 
   webapi:
-    image: ${DOCKER_REGISTRY-}mdm-api:1.0-beta27
+    image: ${DOCKER_REGISTRY-}mdm-api:${MASTERDATA_IMAGETAG}
     build:
       context: .
       dockerfile: Moonlay.MasterData.OpenApi/Dockerfile
@@ -243,7 +243,7 @@ services:
       - webapigrpc
 
   webapp:
-    image: ${DOCKER_REGISTRY-}mdm-app:1.0-beta27
+    image: ${DOCKER_REGISTRY-}mdm-app:${MASTERDATA_IMAGETAG}
     build:
       context: .
       dockerfile: Moonlay.MasterData.WebApp/Dockerfile
