@@ -39,7 +39,7 @@ spec:
             - name: ASPNETCORE_Kestrel__Certificates__Default__Path
               value: {{ .Values.app.ssl.path }}
             - name: ASPNETCORE_Kestrel__Certificates__Default__Password
-              value: {{ .Values.app.ssl.password }}
+              value: "{{ .Values.app.ssl.password }}"
             - name: ConnectionStrings__Connection
               value: {{ include "mdm-grpc-chart.defaultConnectionString" . }}
             - name: ConnectionStrings__ConnectionTrail
