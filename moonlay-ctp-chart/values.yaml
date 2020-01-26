@@ -41,12 +41,12 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-staging
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   hosts:
-    - host: demo-aks-ingress.eastus.cloudapp.azure.com
+    - host: moonlay-ctp-demo.southeastasia.cloudapp.azure.com
       paths: []
   tls:
     - secretName: tls-secret
       hosts:
-        - demo-aks-ingress.eastus.cloudapp.azure.com
+        - moonlay-ctp-demo.southeastasia.cloudapp.azure.com
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
