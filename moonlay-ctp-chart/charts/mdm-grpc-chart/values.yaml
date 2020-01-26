@@ -16,7 +16,7 @@ app:
   dbName: mdm
   ssl:
     path: /https/tls.pfx
-    password: 112233
+    password: "112233"
     cert: tls.pfx
 
 serviceAccount:
