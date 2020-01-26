@@ -75,9 +75,9 @@ Create the name of the service account to use
 {{- end -}}
 
 {{- define "mdm-grpc-chart.defaultConnectionString" -}}
-{{- printf "Host=%s;Database=%s;Username=%s;Password=%s" (include "postgresql.fullname" .) .Values.app.dbName ("moonlay-ctp-chart.postgresql.Values.initdbUser") ("moonlay-ctp-chart.postgresql.Values.initdbPassword") -}}
+{{- printf "Host=%s;Database=%s;Username=%s;Password=%s" (include "postgresql.fullname" .) .Values.app.dbName ("moonlay-ctp-chart.postgresql.Values.postgresqlUsername") ("moonlay-ctp-chart.postgresql.Values.postgresqlPassword") -}}
 {{- end -}}
 
 {{- define "mdm-grpc-chart.trailConnectionString" -}}
-{{- printf "Host=%s;Database=%s_trail;Username=%s;Password=%s" (include "postgresql.fullname" .) .Values.app.dbName ("moonlay-ctp-chart.postgresql.Values.initdbUser") ("moonlay-ctp-chart.postgresql.Values.initdbPassword") -}}
+{{- printf "Host=%s;Database=%s_trail;Username=%s;Password=%s" (include "postgresql.fullname" .) .Values.app.dbName ("moonlay-ctp-chart.postgresql.Values.postgresqlUsername") ("moonlay-ctp-chart.postgresql.Values.postgresqlPassword") -}}
 {{- end -}}

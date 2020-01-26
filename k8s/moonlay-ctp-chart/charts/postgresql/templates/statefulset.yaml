@@ -73,14 +73,10 @@ spec:
               value: "5432"
             - name: POSTGRESQL_VOLUME_DIR
               value: "/bitnami/postgresql"
-            - name: POSTGRESQL_INITSCRIPTS_USERNAME
-              value: moonlay
-            - name: POSTGRESQL_INITSCRIPTS_PASSWORD
-              value: .Values.initdbPassword
             - name: PGDATA
               value: "/bitnami/postgresql/data"
             - name: POSTGRES_USER
-              value: "postgres"
+              value: "moonlay"
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -96,7 +92,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+                - exec pg_isready -U "moonlay" -h 127.0.0.1 -p 5432
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
@@ -109,7 +105,7 @@ spec:
                 - -c
                 - -e
                 - |
-                  exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+                  exec pg_isready -U "moonlay" -h 127.0.0.1 -p 5432
                   [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
             initialDelaySeconds: 5
             periodSeconds: 10

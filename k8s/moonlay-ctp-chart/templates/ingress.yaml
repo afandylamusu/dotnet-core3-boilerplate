@@ -16,10 +16,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - "chart-example.local"
-      secretName: chart-example-tls
+        - "moonlay-ctp.local"
+      secretName: moonlay-ctp-tls
   rules:
-    - host: "chart-example.local"
+    - host: "moonlay-ctp.local"
       http:
         paths:
           - path: /(.*)
