@@ -19,3 +19,6 @@ https://docs.microsoft.com/en-us/azure/aks/ingress-own-tls
 
 Add SSL / TLS Certificate or .PEM file to Kubernetes’ Pod’s trusted root ca store
 https://medium.com/@paraspatidar/add-ssl-tls-certificate-or-pem-file-to-kubernetes-pod-s-trusted-root-ca-store-7bed5cd683d
+
+Create an ingress controller with a static public IP address in Azure Kubernetes Service (AKS)
+https://docs.microsoft.com/en-us/azure/aks/ingress-static-ip

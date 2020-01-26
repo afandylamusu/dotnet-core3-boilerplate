@@ -66,3 +66,6 @@ Create the name of the service account to use
 {{- printf "%s-mdm-api-chart" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "postgresql.fullname" -}}
+{{- printf "%s-postgresql" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
