@@ -78,10 +78,6 @@ mdm-grpc-chart:
 nginx-ingress:
   controller:
     replicaCount: 2
-    nodeSelector:
-        beta\.kubernetes\.io/os: linux
-    defaultBackend:
-        beta\.kubernetes\.io/os: linux
     service:
         loadBalancerIP: 20.43.178.225
     
