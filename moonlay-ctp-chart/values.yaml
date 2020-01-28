@@ -44,7 +44,7 @@ ingress:
     - host: moonlay-ctp-demo.southeastasia.cloudapp.azure.com
       paths: []
   tls:
-    - secretName: letsencrypt
+    - secretName: letsencrypt-secret
       hosts:
         - moonlay-ctp-demo.southeastasia.cloudapp.azure.com
 
