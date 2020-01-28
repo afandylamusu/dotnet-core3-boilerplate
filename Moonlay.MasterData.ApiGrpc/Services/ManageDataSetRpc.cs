@@ -10,9 +10,9 @@ namespace Moonlay.MasterData.ApiGrpc.Services
     public class ManageDataSetRpc : Protos.ManageDataSet.ManageDataSetBase
     {
         private readonly ILogger<ManageDataSetRpc> _logger;
-        private readonly IDataSetService _dataSetService;
+        private readonly IDataSetUseCase _dataSetService;
 
-        public ManageDataSetRpc(ILogger<ManageDataSetRpc> logger, IDataSetService dataSetService)
+        public ManageDataSetRpc(ILogger<ManageDataSetRpc> logger, IDataSetUseCase dataSetService)
         {
             _logger = logger;
             _dataSetService = dataSetService;

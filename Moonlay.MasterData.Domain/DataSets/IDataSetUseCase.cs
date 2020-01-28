@@ -4,18 +4,19 @@ using System.Threading.Tasks;
 
 namespace Moonlay.MasterData.Domain.DataSets
 {
-    public interface IDataSetService
+    public interface IDataSetUseCase
     {
         Task NewDataSet(string name, string domainName, string orgName, IEnumerable<DataSetAttribute> attributes, Action<DataSet> beforeSave = null);
         Task Remove(string name);
         Task<List<DataSet>> AllDataSets(string domainName);
+        Task CreateBatchAsync(IEnumerable<DataSet> data);
     }
 
-    public class DataSetService : IDataSetService
+    public class DataSetUseCase : IDataSetUseCase
     {
         private readonly IDataSetRepository _dataSetRepository;
 
-        public DataSetService(IDataSetRepository dataSetRepository)
+        public DataSetUseCase(IDataSetRepository dataSetRepository)
         {
             _dataSetRepository = dataSetRepository;
         }
@@ -23,6 +24,11 @@ namespace Moonlay.MasterData.Domain.DataSets
         public async Task<List<DataSet>> AllDataSets(string domainName)
         {
             return await _dataSetRepository.AllAsync(domainName);
+        }
+
+        public async Task CreateBatchAsync(IEnumerable<DataSet> data)
+        {
+            await _dataSetRepository.AddRangeAsync(data);
         }
 
         public async Task NewDataSet(string name, string domainName, string orgName, IEnumerable<DataSetAttribute> attributes, Action<DataSet> beforeSave = null)

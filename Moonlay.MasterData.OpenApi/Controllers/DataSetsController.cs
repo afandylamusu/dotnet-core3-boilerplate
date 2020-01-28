@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moonlay.MasterData.OpenApi.Clients;
+using Moonlay.MasterData.OpenApi.GrpcClients;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +26,7 @@ namespace Moonlay.MasterData.OpenApi.Controllers
         {
             var data = await _manageDataSetClient.AllDataSetsAsync(new Protos.AllDataSetsReq { DomainName = "public" });
 
-            return await Task.FromResult(Ok(data.Data.Select(o => new DataSetDto(o)).ToList()));
+            return Ok(data.Data.Select(o => new DataSetDto(o)).ToList());
         }
     }
 }

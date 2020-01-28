@@ -22,3 +22,6 @@ https://medium.com/@paraspatidar/add-ssl-tls-certificate-or-pem-file-to-kubernet
 
 Create an ingress controller with a static public IP address in Azure Kubernetes Service (AKS)
 https://docs.microsoft.com/en-us/azure/aks/ingress-static-ip
+
+performance engineering
+https://dzone.com/articles/performance-engineering-in-the-age-of-agile-and-de

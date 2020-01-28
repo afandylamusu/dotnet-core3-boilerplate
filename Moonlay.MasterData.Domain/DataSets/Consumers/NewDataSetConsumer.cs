@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using Moonlay.Confluent.Kafka;
 using Moonlay.Topics;
 using Moonlay.Topics.MDM.DataSets;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Moonlay.MasterData.Domain.DataSets.Consumers
@@ -12,18 +14,20 @@ namespace Moonlay.MasterData.Domain.DataSets.Consumers
 
     public class NewDataSetConsumer : KafkaConsumer<MessageHeader, NewDataSetTopic>, INewDataSetConsumer
     {
-        private readonly IDataSetService _dataSetService;
+        private readonly IDataSetUseCase _dataSetService;
 
-        public NewDataSetConsumer(ILogger<NewDataSetConsumer> logger, ISchemaRegistryClient schemaRegistryClient, ConsumerConfig config, IDataSetService dataSetService) : base(logger, schemaRegistryClient, config)
+        public NewDataSetConsumer(ILogger<NewDataSetConsumer> logger, ISchemaRegistryClient schemaRegistryClient, ConsumerConfig config, IDataSetUseCase dataSetService) : base(logger, schemaRegistryClient, config)
         {
             _dataSetService = dataSetService;
         }
 
         public override string TopicName => "mdm-newdataset-topic";
 
-        protected override async Task ConsumeMessage(ConsumeResult<MessageHeader, NewDataSetTopic> consumeResult)
+        protected override int NumMessageToProcess => 100;
+
+        protected override async Task ConsumeMessages(List<KeyValuePair<MessageHeader, NewDataSetTopic>> messages)
         {
-            await _dataSetService.NewDataSet(consumeResult.Value.Name, consumeResult.Value.DomainName, consumeResult.Value.OrgName, new DataSetAttribute[] { });
+            await _dataSetService.CreateBatchAsync(messages.Select(o => new DataSet { }));
         }
     }
 }

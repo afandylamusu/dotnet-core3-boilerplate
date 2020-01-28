@@ -23,4 +23,6 @@ service ManageDataSet {
 service ManageCustomer {
     // New Organization
     rpc NewCustomer (NewCustomerReq) returns (Reply);
+
+    rpc AllCustomers (AllCustomersReq) returns (AllCustomersReply);
 }

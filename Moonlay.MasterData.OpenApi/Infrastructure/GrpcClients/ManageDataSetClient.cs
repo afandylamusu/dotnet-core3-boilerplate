@@ -3,7 +3,7 @@ using Moonlay.MasterData.Protos;
 using System;
 using System.Threading;
 
-namespace Moonlay.MasterData.OpenApi.Clients
+namespace Moonlay.MasterData.OpenApi.GrpcClients
 {
     internal class ManageDataSetClient : MasterData.Protos.ManageDataSet.ManageDataSetClient, IManageDataSetClient
     {

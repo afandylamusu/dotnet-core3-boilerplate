@@ -42,16 +42,17 @@ namespace Moonlay.MasterData.ApiGrpc
             services.AddScoped<IDbTrailContext, MyDbTrailContext>();
 
             services.AddScoped<IDataSetRepository, DataSetRepository>();
-            services.AddScoped<IDataSetService, DataSetService>();
+            services.AddScoped<IDataSetUseCase, DataSetUseCase>();
 
 
             services.AddScoped<ISignInService, SignInService>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
-            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ICustomerUseCase, CustomerUseCase>();
 
             ConfigureKafka(services);
 
             services.AddGrpc();
+            services.AddHttpContextAccessor();
             services.AddMetrics();
 
             // Response Compression
@@ -80,6 +81,7 @@ namespace Moonlay.MasterData.ApiGrpc
             {
                 endpoints.MapGrpcService<ManageDataSetRpc>();
                 endpoints.MapGrpcService<ManageOrganizationRpc>();
+                endpoints.MapGrpcService<ManageCustomerRpc>();
 
                 endpoints.MapGet("/", async context =>
                 {

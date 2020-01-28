@@ -17,6 +17,11 @@ namespace Moonlay.MasterData.Domain.DataSets
             _db = db;
         }
 
+        public Task AddRangeAsync(IEnumerable<DataSet> data)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<DataSet>> AllAsync(string domainName)
         {
             var datasets = _db.Connection.Query<InformationTable>("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE table_schema=@domain",

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Moonlay.MasterData.Domain.Customers
 {
-    public class CustomerService : ICustomerService
+    public class CustomerUseCase : ICustomerUseCase
     {
         private readonly ICustomerRepository _customerRepo;
         private readonly IDbContext _db;
 
-        public CustomerService(ICustomerRepository repository, IDbContext db)
+        public CustomerUseCase(ICustomerRepository repository, IDbContext db)
         {
             _customerRepo = repository;
             _db = db;
@@ -70,6 +70,13 @@ namespace Moonlay.MasterData.Domain.Customers
             await SaveChangesAsync();
 
             return customer;
+        }
+
+        public async Task CreateBatchAsync(IEnumerable<Customer> data)
+        {
+            await _customerRepo.DbSet.AddRangeAsync(data);
+
+            await SaveChangesAsync();
         }
     }
 

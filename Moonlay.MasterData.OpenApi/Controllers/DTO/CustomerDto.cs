@@ -1,3 +1,4 @@
+using Moonlay.MasterData.Protos;
 using Newtonsoft.Json;
 using System;
 using System.Runtime.Serialization;
@@ -7,21 +8,21 @@ namespace Moonlay.MasterData.OpenApi.Controllers.DTO
     [DataContract]
     public class CustomerDto
     {
-        public CustomerDto(Customer entity)
+        public CustomerDto(CustomerArg message)
         {
-            if (entity is null)
+            if (message is null)
             {
-                throw new System.ArgumentNullException(nameof(entity));
+                throw new System.ArgumentNullException(nameof(message));
             }
 
-            this.Id = entity.Id;
-            this.FirstName = entity.FirstName;
-            this.LastName = entity.LastName;
+            this.Id = Guid.Parse(message.Id);
+            this.FirstName = message.FirstName;
+            this.LastName = message.LastName;
 
-            this.CreatedAt = entity.CreatedAt;
-            this.CreatedBy = entity.CreatedBy;
-            this.UpdatedAt = entity.UpdatedAt;
-            this.UpdatedBy = entity.UpdatedBy;
+            this.CreatedAt = message.CreatedAt.ToDateTimeOffset();
+            this.CreatedBy = message.CreatedBy;
+            this.UpdatedAt = message.UpdatedAt.ToDateTimeOffset();
+            this.UpdatedBy = message.UpdatedBy;
 
         }
 

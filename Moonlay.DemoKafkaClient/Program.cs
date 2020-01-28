@@ -1,8 +1,12 @@
 ﻿using Confluent.Kafka;
 using Confluent.SchemaRegistry;
 using Confluent.SchemaRegistry.Serdes;
+using Moonlay.Confluent.Kafka;
+using Moonlay.Topics;
+using Moonlay.Topics.Customers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Moonlay.DemoKafkaClient
@@ -11,10 +15,10 @@ namespace Moonlay.DemoKafkaClient
     {
         static async Task Main(string[] args)
         {
-            var config = new ProducerConfig() { BootstrapServers = "192.168.99.100:9092" };
+            var config = new ProducerConfig() { BootstrapServers = "192.168.99.109:9092" };
             var schemaRegistryConfig = new SchemaRegistryConfig
             {
-                Url = "192.168.99.100:8081",
+                Url = "192.168.99.109:8081",
                 // Note: you can specify more than one schema registry url using the
                 // schema.registry.url property for redundancy (comma separated list). 
                 // The property name is not plural to follow the convention set by
@@ -28,26 +32,37 @@ namespace Moonlay.DemoKafkaClient
             // `Confluent.Kafka.Serializers` will be automatically used where
             // available. Note: by default strings are encoded as UTF8.
             using var schemaRegistry = new CachedSchemaRegistryClient(schemaRegistryConfig);
-            using var p = new ProducerBuilder<string, MessageTypes.LogMessage>(config)
-                .SetKeySerializer(new AvroSerializer<string>(schemaRegistry))
-                .SetValueSerializer(new AvroSerializer<MessageTypes.LogMessage>(schemaRegistry))
+
+            using var p = new ProducerBuilder<MessageHeader, NewCustomerTopic>(config)
+                .SetKeySerializer(new AvroSerializer<MessageHeader>(schemaRegistry))
+                .SetValueSerializer(new AvroSerializer<NewCustomerTopic>(schemaRegistry))
                 .Build();
 
             try
             {
-                var message = new MessageTypes.LogMessage
-                {
-                    IP = "192.168.0.1",
-                    Message = "a test message 2",
-                    Severity = MessageTypes.LogLevel.Info,
-                    Tags = new Dictionary<string, string> { { "location", "CA" } }
-                };
+                Parallel.ForEach(Enumerable.Range(1, 10000), i => {
+                    var dr = p.ProduceAsync("new-customer-topic2", new Message<MessageHeader, NewCustomerTopic>
+                    {
+                        Key = new MessageHeader
+                        {
+                            AppOrigin = "DemoKafkaClient",
+                            CurrentUser = "demo",
+                            Timestamp = DateTime.Now.ToString("s"),
+                            Token = Guid.NewGuid().ToString()
+                        },
+                        Value = new NewCustomerTopic
+                        {
+                            FirstName = "Customer "+i,
+                            LastName = "Asyik"
+                        }
+                    }).Result;
 
-                var dr = await p.ProduceAsync("newCustomerTopic", new Message<string, MessageTypes.LogMessage> { Key = Guid.NewGuid().ToString(), Value = message });
+                    Console.WriteLine($"Delivered '{dr.Value}' to '{dr.TopicPartitionOffset}'");
+                });
+               
 
                 p.Flush();
 
-                Console.WriteLine($"Delivered '{dr.Value}' to '{dr.TopicPartitionOffset}'");
             }
             catch (ProduceException<Null, string> e)
             {

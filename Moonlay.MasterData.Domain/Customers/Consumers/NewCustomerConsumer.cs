@@ -5,6 +5,9 @@ using Moonlay.Confluent.Kafka;
 using Moonlay.MasterData.Domain.Customers;
 using Moonlay.Topics;
 using Moonlay.Topics.Customers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Moonlay.MasterData.Domain.Customers.Consumers
@@ -13,23 +16,27 @@ namespace Moonlay.MasterData.Domain.Customers.Consumers
 
     public class NewCustomerConsumer : KafkaConsumer<MessageHeader, NewCustomerTopic>, INewCustomerConsumer
     {
-        private readonly ICustomerService _service;
+        private readonly ICustomerUseCase _service;
 
-        public NewCustomerConsumer(ILogger<NewCustomerConsumer> logger, ISchemaRegistryClient schemaRegistryClient, ConsumerConfig config, ICustomerService service) : base(logger, schemaRegistryClient, config)
+        public NewCustomerConsumer(ILogger<NewCustomerConsumer> logger, ISchemaRegistryClient schemaRegistryClient, ConsumerConfig config, ICustomerUseCase service) : base(logger, schemaRegistryClient, config)
         {
             _service = service;
         }
 
         public override string TopicName => "new-customer-topic2";
 
-        protected override async Task ConsumeMessage(ConsumeResult<MessageHeader, NewCustomerTopic> cr)
+        protected override int NumMessageToProcess => 1000;
+
+        protected override async Task ConsumeMessages(List<KeyValuePair<MessageHeader, NewCustomerTopic>> messages)
         {
-            await _service.NewCustomerAsync(cr.Value.FirstName, cr.Value.LastName, ety =>
+            await _service.CreateBatchAsync(messages.Select(o => new Customer(Guid.NewGuid())
             {
-                ety.CreatedBy = cr.Key.CurrentUser;
-                ety.Tested = cr.Key.IsCurrentUserDemo;
-                ety.UpdatedBy = cr.Key.CurrentUser;
-            });
+                FirstName = o.Value.FirstName,
+                LastName = o.Value.LastName,
+                CreatedBy = o.Key.CurrentUser,
+                Tested = o.Key.IsCurrentUserDemo,
+                UpdatedBy = o.Key.CurrentUser
+            }));
         }
     }
 }

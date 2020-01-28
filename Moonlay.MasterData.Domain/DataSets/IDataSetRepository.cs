@@ -12,5 +12,6 @@ namespace Moonlay.MasterData.Domain.DataSets
         Task Create(DataSet model, IEnumerable<DataSetAttribute> dataSetAttributes);
 
         Task Delete(string name);
+        Task AddRangeAsync(IEnumerable<DataSet> data);
     }
 }

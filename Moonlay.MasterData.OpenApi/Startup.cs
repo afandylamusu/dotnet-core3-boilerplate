@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Moonlay.Confluent.Kafka;
 using Moonlay.Core.Models;
-using Moonlay.MasterData.OpenApi.Clients;
+using Moonlay.MasterData.OpenApi.GrpcClients;
 using Moonlay.MasterData.OpenApi.GraphQLTypes;
 using System;
 using System.IO.Compression;
@@ -39,7 +39,7 @@ namespace Moonlay.MasterData.OpenApi
 
             services.AddScoped<ISignInService, SignInService>();
 
-            services.AddScoped<IManageDataSetClient>(c => {
+            services.AddScoped<Grpc.Core.ChannelBase>(c => {
                 if (Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "Development")
                 {
                     var httpClientHandler = new System.Net.Http.HttpClientHandler();
@@ -48,11 +48,14 @@ namespace Moonlay.MasterData.OpenApi
                     httpClientHandler.ServerCertificateCustomValidationCallback =
                         System.Net.Http.HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
 
-                    return new ManageDataSetClient(Grpc.Net.Client.GrpcChannel.ForAddress(Configuration.GetSection("Grpc:ServerUrl").Value, new Grpc.Net.Client.GrpcChannelOptions { HttpClient = new System.Net.Http.HttpClient(httpClientHandler) }));
+                    return Grpc.Net.Client.GrpcChannel.ForAddress(Configuration.GetSection("Grpc:ServerUrl").Value, new Grpc.Net.Client.GrpcChannelOptions { HttpClient = new System.Net.Http.HttpClient(httpClientHandler) });
                 }
                 else
-                    return new ManageDataSetClient(Grpc.Net.Client.GrpcChannel.ForAddress(Configuration.GetSection("Grpc:ServerUrl").Value));
+                    return Grpc.Net.Client.GrpcChannel.ForAddress(Configuration.GetSection("Grpc:ServerUrl").Value);
             });
+
+            services.AddScoped<IManageDataSetClient, ManageDataSetClient>();
+            services.AddScoped<IManageCustomerClient, ManageCustomerClient>();
 
             services.AddResponseCompression(options=> {
                 options.EnableForHttps = true;

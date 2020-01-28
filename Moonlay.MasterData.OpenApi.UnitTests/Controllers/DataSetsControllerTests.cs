@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using Moonlay.MasterData.OpenApi.Clients;
+using Moonlay.MasterData.OpenApi.GrpcClients;
 using Moonlay.MasterData.OpenApi.Controllers;
 using Moq;
 using System;

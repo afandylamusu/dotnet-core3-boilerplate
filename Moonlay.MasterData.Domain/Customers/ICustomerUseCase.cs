@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moonlay.MasterData.Domain.Customers
 {
-    public interface ICustomerService
+    public interface ICustomerUseCase
     {
         Task<Customer> NewCustomerAsync(string firstName, string lastName, Action<Customer> beforeSave = null);
 
@@ -15,6 +15,8 @@ namespace Moonlay.MasterData.Domain.Customers
         Task<List<CustomerTrail>> LogsAsync(Guid id);
 
         Task<Customer> UpdateProfileAsync(Guid id, string firstName, string lastName, Action<Customer> beforeSave = null);
+
+        Task CreateBatchAsync(IEnumerable<Customer> data);
     }
 
 }

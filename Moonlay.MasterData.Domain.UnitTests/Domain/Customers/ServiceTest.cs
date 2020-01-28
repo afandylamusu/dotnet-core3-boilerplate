@@ -23,9 +23,9 @@ namespace Moonlay.MasterData.Domain.UnitTests.Domain.Customers
             _MockRepo.VerifyAll();
         }
 
-        private CustomerService CreateService(DbTestConnection db)
+        private CustomerUseCase CreateService(DbTestConnection db)
         {
-            return new CustomerService(_CustomerRepo.Object, db.Db);
+            return new CustomerUseCase(_CustomerRepo.Object, db.Db);
         }
 
 
