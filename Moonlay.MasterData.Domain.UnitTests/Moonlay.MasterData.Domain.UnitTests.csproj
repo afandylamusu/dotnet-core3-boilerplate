@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Moonlay.MasterData.Domain.DataSets\Moonlay.MasterData.Domain.csproj" />
     <ProjectReference Include="..\Moonlay.MasterData.Domain\Moonlay.MasterData.Domain.csproj" />
   </ItemGroup>
 

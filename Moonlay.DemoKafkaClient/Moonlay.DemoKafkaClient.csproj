@@ -11,8 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Moonlay.Confluent.Kafka\Moonlay.Confluent.Kafka.csproj" />
-    <ProjectReference Include="..\Moonlay.DemoKafkaTopics\Moonlay.DemoKafkaTopics.csproj" />
     <ProjectReference Include="..\Moonlay.MasterData.Topics\Moonlay.MasterData.Topics.csproj" />
   </ItemGroup>
 

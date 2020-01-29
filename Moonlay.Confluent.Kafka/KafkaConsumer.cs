@@ -18,8 +18,6 @@ namespace Moonlay.Confluent.Kafka
 
         public IConsumer<TKey, TValue> Consumer { get; }
 
-        protected virtual int NumMessageToProcess => 100;
-
         public KafkaConsumer(ILogger logger, ISchemaRegistryClient schemaRegistryClient, ConsumerConfig config)
         {
             _logger = logger;
@@ -38,22 +36,14 @@ namespace Moonlay.Confluent.Kafka
             {
                 Consumer.Subscribe(TopicName);
 
-                var basket = new List<KeyValuePair<TKey, TValue>>();
-
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     try
                     {
                         var consumeResult = Consumer.Consume(cancellationToken);
-                        if (consumeResult != null)
-                            basket.Add(new KeyValuePair<TKey, TValue>(consumeResult.Key, consumeResult.Value));
-                        
-                        if(basket.Count == NumMessageToProcess)
-                        {
-                            await ConsumeMessages(basket);
-                            basket.Clear();
-                        }
 
+                        await ConsumeMessages(consumeResult);
+                          
                         _logger.LogInformation($"Consumed message '{Newtonsoft.Json.JsonConvert.SerializeObject(consumeResult.Message.Key)}' '{Newtonsoft.Json.JsonConvert.SerializeObject(consumeResult.Message.Value)}' at: '{consumeResult.TopicPartitionOffset}'.");
                     }
                     catch (ConsumeException e)
@@ -73,6 +63,6 @@ namespace Moonlay.Confluent.Kafka
             }
         }
 
-        protected abstract Task ConsumeMessages(List<KeyValuePair<TKey, TValue>> messages);
+        protected abstract Task ConsumeMessages(ConsumeResult<TKey, TValue> message);
     }
 }

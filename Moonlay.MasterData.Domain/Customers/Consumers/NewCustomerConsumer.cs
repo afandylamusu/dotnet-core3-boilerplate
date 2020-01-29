@@ -25,18 +25,14 @@ namespace Moonlay.MasterData.Domain.Customers.Consumers
 
         public override string TopicName => "new-customer-topic2";
 
-        protected override int NumMessageToProcess => 1000;
-
-        protected override async Task ConsumeMessages(List<KeyValuePair<MessageHeader, NewCustomerTopic>> messages)
+        protected override async Task ConsumeMessages(ConsumeResult<MessageHeader, NewCustomerTopic> message)
         {
-            await _service.CreateBatchAsync(messages.Select(o => new Customer(Guid.NewGuid())
+            await _service.NewCustomerAsync(message.Value.FirstName, message.Value.LastName, c =>
             {
-                FirstName = o.Value.FirstName,
-                LastName = o.Value.LastName,
-                CreatedBy = o.Key.CurrentUser,
-                Tested = o.Key.IsCurrentUserDemo,
-                UpdatedBy = o.Key.CurrentUser
-            }));
+                c.CreatedBy = message.Key.CurrentUser;
+                c.UpdatedBy = message.Key.CurrentUser;
+                c.Tested = message.Key.IsCurrentUserDemo;
+            });
         }
     }
 }

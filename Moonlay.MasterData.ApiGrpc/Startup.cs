@@ -15,7 +15,6 @@ using Moonlay.MasterData.ApiGrpc.Services;
 using Moonlay.MasterData.Domain.Customers;
 using Moonlay.MasterData.Domain.Customers.Consumers;
 using Moonlay.MasterData.Domain.DataSets;
-using Moonlay.MasterData.Domain.DataSets.Consumers;
 using System.IO.Compression;
 
 namespace Moonlay.MasterData.ApiGrpc
@@ -120,8 +119,6 @@ namespace Moonlay.MasterData.ApiGrpc
             });
             services.AddScoped<INewCustomerConsumer, NewCustomerConsumer>();
             services.AddScoped<IUpdateCustomerConsumer, UpdateCustomerConsumer>();
-
-            services.AddScoped<INewDataSetConsumer, NewDataSetConsumer>();
         }
 
     }

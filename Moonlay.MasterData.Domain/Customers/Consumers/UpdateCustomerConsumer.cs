@@ -23,7 +23,7 @@ namespace Moonlay.MasterData.Domain.Customers.Consumers
             _service = service;
         }
 
-        protected override Task ConsumeMessages(List<KeyValuePair<MessageHeader, UpdateCustomerTopic>> messages)
+        protected override Task ConsumeMessages(ConsumeResult<MessageHeader, UpdateCustomerTopic> message)
         {
             throw new NotImplementedException();
         }

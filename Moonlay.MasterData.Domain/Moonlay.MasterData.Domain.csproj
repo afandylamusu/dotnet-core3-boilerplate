@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Moonlay.MasterData.Topics\Moonlay.MasterData.Topics.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataSets\Consumers\" />
+  </ItemGroup>
+
 </Project>

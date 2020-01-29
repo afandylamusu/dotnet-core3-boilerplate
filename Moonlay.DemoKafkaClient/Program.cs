@@ -1,11 +1,9 @@
 ﻿using Confluent.Kafka;
 using Confluent.SchemaRegistry;
 using Confluent.SchemaRegistry.Serdes;
-using Moonlay.Confluent.Kafka;
 using Moonlay.Topics;
 using Moonlay.Topics.Customers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,7 +38,7 @@ namespace Moonlay.DemoKafkaClient
 
             try
             {
-                Parallel.ForEach(Enumerable.Range(1, 10000), i => {
+                Parallel.ForEach(Enumerable.Range(1, 100), i => {
                     var dr = p.ProduceAsync("new-customer-topic2", new Message<MessageHeader, NewCustomerTopic>
                     {
                         Key = new MessageHeader
