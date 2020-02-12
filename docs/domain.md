@@ -43,12 +43,10 @@ The following illustration shows one way to conceptualize the relationships betw
 ![Repo Pattern](images/repo-design-pattern.png)
 
 
-The Diagram below shown how Entity works with Repository
-
 ![Base Entity](images/Base-Entity.png)
 
 **The unit of work** class serves one purpose: to make sure that when you use multiple repositories, they share a single database context. That way, when a unit of work is complete you can call the SaveChanges method on that instance of the context and be assured that all related changes will be coordinated. All that the class needs is a Save method and a property for each repository. Each repository property returns a repository instance that has been instantiated using the same database context instance as the other repository instances.
 
 **IDbContext** is a UnitOfWork 
 
-![](images/unit-of-work.png)
+![Unit of Work](images/unit-of-work.png)
