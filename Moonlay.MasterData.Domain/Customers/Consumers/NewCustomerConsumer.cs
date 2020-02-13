@@ -2,12 +2,8 @@
 using Confluent.SchemaRegistry;
 using Microsoft.Extensions.Logging;
 using Moonlay.Confluent.Kafka;
-using Moonlay.MasterData.Domain.Customers;
 using Moonlay.Topics;
 using Moonlay.Topics.Customers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Moonlay.MasterData.Domain.Customers.Consumers

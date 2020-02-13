@@ -91,7 +91,7 @@ namespace Moonlay.MasterData.ApiGrpc
 
         private void ConfigureKafka(IServiceCollection services)
         {
-            services.AddHostedService<HostedConsumers>();
+            services.AddHostedService<MasterDataHostConsumers>();
 
             services.AddSingleton(c => new SchemaRegistryConfig
             {
@@ -104,6 +104,7 @@ namespace Moonlay.MasterData.ApiGrpc
                 RequestTimeoutMs = 5000,
                 MaxCachedSchemas = 10
             });
+
             services.AddSingleton<ISchemaRegistryClient>(c => new CachedSchemaRegistryClient(c.GetRequiredService<SchemaRegistryConfig>()));
 
             services.AddSingleton(c => new ConsumerConfig

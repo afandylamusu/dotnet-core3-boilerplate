@@ -2,18 +2,17 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Moonlay.MasterData.Domain.Customers.Consumers;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Moonlay.MasterData.ApiGrpc.Hosts
+namespace Moonlay.Confluent.Kafka
 {
-    public class HostedConsumers : IHostedService, IDisposable
+    public abstract class HostedConsumers : IHostedService, IDisposable
     {
-        private readonly ILogger<HostedConsumers> _logger;
+        private readonly ILogger _logger;
         public HostedConsumers(IServiceProvider services,
-            ILogger<HostedConsumers> logger)
+            ILogger logger)
         {
             Services = services;
             _logger = logger;
@@ -35,16 +34,13 @@ namespace Moonlay.MasterData.ApiGrpc.Hosts
         {
             using (var scope = Services.CreateScope())
             {
-                var tasks = new Task[] {
-                    Task.Run(async()=>await scope.ServiceProvider.GetRequiredService<INewCustomerConsumer>().Run(stoppingToken)),
-                    Task.Run(async()=>await scope.ServiceProvider.GetRequiredService<IUpdateCustomerConsumer>().Run(stoppingToken))
-                };
-
-                Task.WaitAll(tasks);
+                Task.WaitAll(GetConsumers(scope.ServiceProvider, stoppingToken));
             }
 
             return Task.CompletedTask;
         }
+
+        protected abstract Task[] GetConsumers(IServiceProvider serviceProvider, CancellationToken stoppingToken);
 
         public async Task StopAsync(CancellationToken stoppingToken)
         {
