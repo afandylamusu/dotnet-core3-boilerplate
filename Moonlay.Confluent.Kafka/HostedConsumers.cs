@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Moonlay.Confluent.Kafka
 {
-    public abstract class HostedConsumers : IHostedService, IDisposable
+    public class HostedConsumers : IHostedService, IDisposable
     {
         private readonly ILogger _logger;
         public HostedConsumers(IServiceProvider services,
-            ILogger logger)
+            ILogger<HostedConsumers> logger)
         {
             Services = services;
             _logger = logger;
@@ -34,13 +34,14 @@ namespace Moonlay.Confluent.Kafka
         {
             using (var scope = Services.CreateScope())
             {
-                Task.WaitAll(GetConsumers(scope.ServiceProvider, stoppingToken));
+                var consumerRegistrations = scope.ServiceProvider.GetRequiredService<IConsumerRegister>();
+                Task.WaitAll(consumerRegistrations.Consumers(scope.ServiceProvider, stoppingToken));
             }
 
             return Task.CompletedTask;
         }
 
-        protected abstract Task[] GetConsumers(IServiceProvider serviceProvider, CancellationToken stoppingToken);
+        //protected abstract Task[] GetConsumers(IServiceProvider serviceProvider, CancellationToken stoppingToken);
 
         public async Task StopAsync(CancellationToken stoppingToken)
         {

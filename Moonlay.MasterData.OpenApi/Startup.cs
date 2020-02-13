@@ -73,22 +73,23 @@ namespace Moonlay.MasterData.OpenApi
 
         private void ConfigureKafka(IServiceCollection services)
         {
-            services.AddSingleton(c => new SchemaRegistryConfig
-            {
-                Url = Configuration.GetSection("Kafka:SchemaRegistryUrl").Value,
-                // Note: you can specify more than one schema registry url using the
-                // schema.registry.url property for redundancy (comma separated list). 
-                // The property name is not plural to follow the convention set by
-                // the Java implementation.
-                // optional schema registry client properties:
-                RequestTimeoutMs = 5000,
-                MaxCachedSchemas = 10
-            });
+            //services.AddSingleton(c => new SchemaRegistryConfig
+            //{
+            //    Url = Configuration.GetSection("Kafka:SchemaRegistryUrl").Value,
+            //    // Note: you can specify more than one schema registry url using the
+            //    // schema.registry.url property for redundancy (comma separated list). 
+            //    // The property name is not plural to follow the convention set by
+            //    // the Java implementation.
+            //    // optional schema registry client properties:
+            //    RequestTimeoutMs = 5000,
+            //    MaxCachedSchemas = 10
+            //});
 
-            services.AddSingleton<ISchemaRegistryClient>(c => new CachedSchemaRegistryClient(c.GetRequiredService<SchemaRegistryConfig>()));
-            services.AddSingleton(c => new ProducerConfig() { BootstrapServers = Configuration.GetSection("Kafka:BootstrapServers").Value });
+            //services.AddSingleton<ISchemaRegistryClient>(c => new CachedSchemaRegistryClient(c.GetRequiredService<SchemaRegistryConfig>()));
+            //services.AddSingleton(c => new ProducerConfig() { BootstrapServers = Configuration.GetSection("Kafka:BootstrapServers").Value });
 
-            services.AddScoped<IKafkaProducer, KafkaProducer>();
+            //services.AddScoped<IKafkaProducer, KafkaProducer>();
+            services.AddKafkaProducer();
         }
 
         private void ConfigureRestFullServices(IServiceCollection services)

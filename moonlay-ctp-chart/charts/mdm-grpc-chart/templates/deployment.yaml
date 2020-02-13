@@ -44,9 +44,9 @@ spec:
               value: {{ include "mdm-grpc-chart.defaultConnectionString" . }}
             - name: ConnectionStrings__ConnectionTrail
               value: {{ include "mdm-grpc-chart.trailConnectionString" . }}
-            - name: Kafka__BootstrapServers
+            - name: Kafka__Consumer__bootstrap.servers
               value: {{ include "cp-kafka.fullname" . }}:9092
-            - name: Kafka__SchemaRegistryUrl
+            - name: Kafka__SchemaRegistry__schema.registry.url
               value: {{ include "cp-schema-registry.fullname" . }}:8081
           volumeMounts:
             - name: {{ .Release.Name }}-ssl-cfgmap

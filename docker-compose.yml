@@ -203,8 +203,8 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ConnectionStrings__Connection=Host=postgres;Database=mdmdb;Username=moonlay;Password=mdm123
       - ConnectionStrings__ConnectionTrail=Host=postgres;Database=mdmdb_trail;Username=moonlay;Password=mdm123
-      - Kafka__BootstrapServers=kafka1:9092
-      - Kafka__SchemaRegistryUrl=kafka-schema-registry:8081
+      - Kafka__Producer__bootstrap.servers=kafka1:9092
+      - Kafka__SchemaRegistry__schema.registry.url=kafka-schema-registry:8081
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${USERPROFILE}/.aspnet/https:/https:ro
@@ -232,8 +232,8 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=112233
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - Grpc__ServerUrl=https://webapigrpc
-      - Kafka__BootstrapServers=kafka1:9092
-      - Kafka__SchemaRegistryUrl=kafka-schema-registry:8081
+      - Kafka__Producer__bootstrap.servers=kafka1:9092
+      - Kafka__SchemaRegistry__schema.registry.url=kafka-schema-registry:8081
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${USERPROFILE}/.aspnet/https:/https:ro
@@ -257,8 +257,8 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=112233
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - Grpc__ServerUrl=https://webapigrpc
-      - Kafka__BootstrapServers=kafka1:9092
-      - Kafka__SchemaRegistryUrl=kafka-schema-registry:8081
+      - Kafka__Producer__bootstrap.servers=kafka1:9092
+      - Kafka__SchemaRegistry__schema.registry.url=kafka-schema-registry:8081
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${USERPROFILE}/.aspnet/https:/https:ro

@@ -31,9 +31,9 @@ spec:
               value: Development
             - name: Grpc__ServerUrl
               value: https://{{ include "mdm-grpc-chart.fullname" . }}
-            - name: Kafka__BootstrapServers
+            - name: Kafka__Producer__bootstrap.servers
               value: {{ include "cp-kafka.fullname" . }}:9092
-            - name: Kafka__SchemaRegistryUrl
+            - name: Kafka__SchemaRegistry__schema.registry.url
               value: {{ include "cp-schema-registry.fullname" . }}:8081
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
