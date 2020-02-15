@@ -1,0 +1,12 @@
+dependencies:
+- name: postgresql
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 8.1.4
+- name: cp-helm-charts
+  repository: https://confluentinc.github.io/cp-helm-charts/
+  version: 0.4.0
+- name: nginx-ingress
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 1.29.5
+digest: sha256:d40e25929be37db1e403ade96242ed49f73a6680e0aeb0a80178374c5ce6933c
+generated: "2020-01-26T19:45:14.3046185+07:00"

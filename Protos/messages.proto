@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Moonlay.MasterData.Protos";
+
+package Moonlay;
+
+message Reply {
+    bool success = 1;
+    string message = 2;
+}
+
+//-------------------ManageCustomerService-----------------//
+
+message NewCustomerReq {
+    string firstName = 1;
+    string lastName = 2;
+}
+
+message AllCustomersReq {
+  int32 page = 1;
+  int32 pageSize = 2;
+}
+
+message AllCustomersReply {
+  bool success = 1;
+  string message = 2;
+  repeated CustomerArg Data = 3;
+}
+
+message CustomerArg {
+    string id = 1;
+    string firstName = 2;
+    string lastName = 3;
+    string createdBy = 4;
+    google.protobuf.Timestamp createdAt = 5;
+    string updatedBy = 6;
+    google.protobuf.Timestamp updatedAt = 7;
+}
+
+//-------------------End-----------------------------------//
+
+
+//-------------------ManageDatasetService-----------------//
+
+message AllDataSetsReq {
+  string domainName = 2;
+}
+
+message AllDataSetsReply {
+  bool success = 1;
+  string message = 2;
+  repeated DataSetArg Data = 3;
+}
+
+// Command for create a dataset
+message NewDatasetReq {
+  string name = 1;
+  string domainName = 2;
+  string organizationName = 3;
+  repeated AttributeArg attributes = 4;
+}
+
+message AttributeArg {
+    string name = 1;
+    string type = 2;
+}
+
+message DataSetArg {
+    string name = 1;
+}
+
+message RemoveDataSetReq {
+    string name = 1;
+}
+
+//-------------------End-----------------------------------//
+
+
+//-------------------ManageDatasetService-----------------//
+
+message NewOrganizationReq {
+  string name = 1;
+}
+
+//-------------------End-----------------------------------//
+
+

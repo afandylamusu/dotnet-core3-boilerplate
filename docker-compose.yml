@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.4'
 
 services:
   zoo1:
@@ -77,7 +77,7 @@ services:
     image: landoop/kafka-topics-ui:0.9.4
     hostname: kafka-topics-ui
     ports:
-      - "8000:8000"
+      - "8002:8000"
     environment:
       KAFKA_REST_PROXY_URL: "http://kafka-rest-proxy:8082/"
       PROXY: "true"
@@ -163,42 +163,111 @@ services:
     depends_on:
       - zoo1
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${ES_TAG}
-    container_name: elasticsearch
-    restart: always
-    ports:
-      - 9200:9200
+  postgres:
+    container_name: postgres_container
+    image: postgres
     environment:
-      discovery.type: single-node
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-  oap:
-    image: apache/skywalking-oap-server
-    container_name: oap
-    depends_on:
-      - elasticsearch
-    links:
-      - elasticsearch
-    restart: always
+      POSTGRES_USER: ${POSTGRES_USER:-moonlay}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mdm123}
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
     ports:
-      - 11800:11800
-      - 12800:12800
+      - "5432:5432"
+  
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
     environment:
-      SW_STORAGE: elasticsearch
-      SW_STORAGE_ES_CLUSTER_NODES: elasticsearch:9200
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
 
-  ui:
-    image: apache/skywalking-ui
-    container_name: ui
-    depends_on:
-      - oap
-    links:
-      - oap
-    restart: always
+
+  webapigrpc:
+    image: ${DOCKER_REGISTRY-}mdm-grpc:${MASTERDATA_IMAGETAG}
+    build:
+      context: .
+      dockerfile: Moonlay.MasterData.ApiGrpc/Dockerfile
     ports:
-      - 8080:8080
+      - 8810:80
+      - 8443:443
     environment:
-      SW_OAP_ADDRESS: oap:12800
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=8443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=112233
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__Connection=Host=postgres;Database=mdmdb;Username=moonlay;Password=mdm123
+      - ConnectionStrings__ConnectionTrail=Host=postgres;Database=mdmdb_trail;Username=moonlay;Password=mdm123
+      - Kafka__Producer__bootstrap.servers=kafka1:9092
+      - Kafka__SchemaRegistry__schema.registry.url=kafka-schema-registry:8081
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${USERPROFILE}/.aspnet/https:/https:ro
+    links:
+      - kafka1
+      - kafka-schema-registry
+      - postgres
+    depends_on:
+      - kafka1
+      - kafka-schema-registry
+      - postgres
+
+  webapi:
+    image: ${DOCKER_REGISTRY-}mdm-api:${MASTERDATA_IMAGETAG}
+    build:
+      context: .
+      dockerfile: Moonlay.MasterData.OpenApi/Dockerfile
+    ports:
+      - 8811:80
+      - 8444:443
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=8444
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=112233
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - Grpc__ServerUrl=https://webapigrpc
+      - Kafka__Producer__bootstrap.servers=kafka1:9092
+      - Kafka__SchemaRegistry__schema.registry.url=kafka-schema-registry:8081
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${USERPROFILE}/.aspnet/https:/https:ro
+    links:
+      - webapigrpc
+    depends_on: 
+      - webapigrpc
+
+  webapp:
+    image: ${DOCKER_REGISTRY-}mdm-app:${MASTERDATA_IMAGETAG}
+    build:
+      context: .
+      dockerfile: Moonlay.MasterData.WebApp/Dockerfile
+    ports:
+      - 8812:80
+      - 8445:443
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=8445
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=112233
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - Grpc__ServerUrl=https://webapigrpc
+      - Kafka__Producer__bootstrap.servers=kafka1:9092
+      - Kafka__SchemaRegistry__schema.registry.url=kafka-schema-registry:8081
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${USERPROFILE}/.aspnet/https:/https:ro
+    links:
+      - webapigrpc
+    depends_on: 
+      - webapigrpc
+
+  
+volumes:
+    postgres:
+    pgadmin:

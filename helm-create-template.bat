@@ -1,0 +1,1 @@
+helm template moonlay-ctp moonlay-ctp-chart/ --output-dir dist/k8s
