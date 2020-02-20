@@ -12,3 +12,6 @@ https://medium.com/faun/configuring-ha-kubernetes-cluster-on-bare-metal-servers-
 ## K8s with VMs On Premise
 
 https://kubernetes.io/docs/setup/production-environment/on-premises-vm/
+
+- [Cloudstack](https://cloudstack.apache.org/)
+- [CoreOS](http://coreos.com/)
